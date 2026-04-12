@@ -1,0 +1,244 @@
+{
+    "id": "template-upsi",
+    "targetExam": {
+        "name": "UP Police SI",
+        "date": "2026-03-31T00:00:00.000Z"
+    },
+    "syllabus": [
+        {
+            "id": "subj-1",
+            "title": "General Hindi",
+            "topics": [
+                {
+                    "id": "top-1",
+                    "title": "Hindi Grammar",
+                    "subtopics": [
+                        {
+                            "id": "sub-1",
+                            "title": "Nouns and Pronouns",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-2",
+                            "title": "Tenses",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-3",
+                            "title": "Synonyms and Antonyms",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top-2",
+                    "title": "Literature",
+                    "subtopics": [
+                        {
+                            "id": "sub-4",
+                            "title": "Famous Poets & Writers",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-5",
+                            "title": "Hindi Language Awards",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "subj-2",
+            "title": "Basic Law / Constitution",
+            "topics": [
+                {
+                    "id": "top-3",
+                    "title": "Basic Law",
+                    "subtopics": [
+                        {
+                            "id": "sub-6",
+                            "title": "Indian Penal Code (IPC)",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-7",
+                            "title": "Criminal Procedure Code (CrPC)",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-8",
+                            "title": "Women & Child Rights",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-9",
+                            "title": "Cyber Crimes",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top-4",
+                    "title": "Constitution",
+                    "subtopics": [
+                        {
+                            "id": "sub-10",
+                            "title": "Fundamental Rights",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-11",
+                            "title": "Directive Principles",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-12",
+                            "title": "Parliament & Judiciary",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "subj-3",
+            "title": "General Knowledge",
+            "topics": [
+                {
+                    "id": "top-5",
+                    "title": "History & Geography",
+                    "subtopics": [
+                        {
+                            "id": "sub-13",
+                            "title": "Ancient History",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-14",
+                            "title": "Modern Indian History",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-15",
+                            "title": "Indian Geography",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top-6",
+                    "title": "Current Affairs",
+                    "subtopics": [
+                        {
+                            "id": "sub-16",
+                            "title": "National News",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-17",
+                            "title": "International Affairs",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "subj-4",
+            "title": "Numerical & Mental Ability",
+            "topics": [
+                {
+                    "id": "top-7",
+                    "title": "Numerical Ability",
+                    "subtopics": [
+                        {
+                            "id": "sub-18",
+                            "title": "Number System",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-19",
+                            "title": "Percentage & Profit/Loss",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-20",
+                            "title": "Time & Work",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-21",
+                            "title": "Simple & Compound Interest",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top-8",
+                    "title": "Mental Ability",
+                    "subtopics": [
+                        {
+                            "id": "sub-22",
+                            "title": "Logical Diagrams",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-23",
+                            "title": "Word & Alphabet Analogy",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-24",
+                            "title": "Direction Sense Test",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "subj-5",
+            "title": "Reasoning Test",
+            "topics": [
+                {
+                    "id": "top-9",
+                    "title": "Verbal Reasoning",
+                    "subtopics": [
+                        {
+                            "id": "sub-25",
+                            "title": "Syllogism",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-26",
+                            "title": "Blood Relations",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-27",
+                            "title": "Venn Diagrams",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top-10",
+                    "title": "Non-Verbal Reasoning",
+                    "subtopics": [
+                        {
+                            "id": "sub-28",
+                            "title": "Series Completion",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub-29",
+                            "title": "Pattern Completion",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

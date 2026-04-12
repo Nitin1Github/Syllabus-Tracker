@@ -1,0 +1,127 @@
+{
+    "id": "upsc_cse_prelims",
+    "targetExam": {
+        "name": "UPSC CSE Prelims 2026",
+        "date": "2026-05-31T00:00:00.000Z"
+    },
+    "syllabus": [
+        {
+            "id": "subj_upsc_gs",
+            "title": "General Studies Paper I",
+            "topics": [
+                {
+                    "id": "top_upsc_history",
+                    "title": "History of India",
+                    "subtopics": [
+                        {
+                            "id": "sub_upsc_hist_1",
+                            "title": "Ancient History",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_upsc_hist_2",
+                            "title": "Medieval History",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_upsc_hist_3",
+                            "title": "Modern History & Indian National Movement",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_upsc_geo",
+                    "title": "Geography",
+                    "subtopics": [
+                        {
+                            "id": "sub_upsc_geo_1",
+                            "title": "Indian Geography",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_upsc_geo_2",
+                            "title": "World Geography",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_upsc_polity",
+                    "title": "Polity and Governance",
+                    "subtopics": [
+                        {
+                            "id": "sub_upsc_pol_1",
+                            "title": "Constitution & Political System",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_upsc_pol_2",
+                            "title": "Panchayati Raj & Public Policy",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_upsc_eco",
+                    "title": "Economic and Social Development",
+                    "subtopics": [
+                        {
+                            "id": "sub_upsc_eco_1",
+                            "title": "Sustainable Development & Poverty",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_upsc_eco_2",
+                            "title": "Demographics & Social Sector Initiatives",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_upsc_env",
+                    "title": "Environment & Science",
+                    "subtopics": [
+                        {
+                            "id": "sub_upsc_env_1",
+                            "title": "Environmental Ecology & Biodiversity",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_upsc_env_2",
+                            "title": "Climate Change & General Science",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "subj_upsc_csat",
+            "title": "CSAT Paper II",
+            "topics": [
+                {
+                    "id": "top_upsc_csat_apt",
+                    "title": "Aptitude and Comprehension",
+                    "subtopics": [
+                        {
+                            "id": "sub_upsc_csat_1",
+                            "title": "Comprehension & Interpersonal skills",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_upsc_csat_2",
+                            "title": "Logical reasoning & analytical ability",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_upsc_csat_3",
+                            "title": "Basic numeracy & Data interpretation",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

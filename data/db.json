@@ -1,0 +1,1528 @@
+{
+  "exams": [
+    {
+      "id": "exam-legacy",
+      "targetExam": {
+        "name": "SSC CGL2026",
+        "date": "2026-03-31T00:00:00.000Z"
+      },
+      "syllabus": [
+        {
+          "id": "subj-1",
+          "title": "General Hindi",
+          "topics": [
+            {
+              "id": "top-1-1",
+              "title": "Hindi and other Indian Languages",
+              "subtopics": [
+                {
+                  "id": "sub-1-1-1",
+                  "title": "Grammar basics",
+                  "state": "revised"
+                },
+                {
+                  "id": "sub-1-1-2",
+                  "title": "Vocabulary",
+                  "state": "revised"
+                },
+                {
+                  "id": "sub-1773083315171",
+                  "title": "error detecting",
+                  "state": "revised"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-2",
+          "title": "Law/Constitution",
+          "topics": [
+            {
+              "id": "top-2-1",
+              "title": "Basic Law",
+              "subtopics": [
+                {
+                  "id": "sub-2-1-1",
+                  "title": "Indian Penal Code",
+                  "state": "revised"
+                },
+                {
+                  "id": "sub-2-1-2",
+                  "title": "Criminal Procedure Code",
+                  "state": "revised"
+                }
+              ]
+            },
+            {
+              "id": "top-2-2",
+              "title": "Constitution",
+              "subtopics": [
+                {
+                  "id": "sub-2-2-1",
+                  "title": "Fundamental Rights",
+                  "state": "revised"
+                },
+                {
+                  "id": "sub-2-2-2",
+                  "title": "Directive Principles",
+                  "state": "revised"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-3",
+          "title": "Numerical/Mental Ability",
+          "topics": [
+            {
+              "id": "top-3-1",
+              "title": "Numerical Ability",
+              "subtopics": [
+                {
+                  "id": "sub-3-1-1",
+                  "title": "Number System",
+                  "state": "revised"
+                },
+                {
+                  "id": "sub-3-1-2",
+                  "title": "Percentage",
+                  "state": "read"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-4",
+          "title": "Mental Aptitude/Reasoning",
+          "topics": [
+            {
+              "id": "top-4-1",
+              "title": "Reasoning",
+              "subtopics": [
+                {
+                  "id": "sub-4-1-1",
+                  "title": "Analogies",
+                  "state": "revised"
+                },
+                {
+                  "id": "sub-4-1-2",
+                  "title": "Coding-Decoding",
+                  "state": "read"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773079175153",
+          "title": "General Awareness",
+          "topics": [
+            {
+              "id": "top-1773079191115",
+              "title": "Current Affairs",
+              "subtopics": [
+                {
+                  "id": "sub-1773079207938",
+                  "title": "National current affairs",
+                  "state": "read"
+                },
+                {
+                  "id": "sub-1773079225599",
+                  "title": "International current affairs",
+                  "state": "read"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773739502158-70y7fy8qp",
+          "title": "Quantitative Aptitude",
+          "topics": [
+            {
+              "id": "top-1773739502158-1c1j2es06",
+              "title": "Arithmetic",
+              "subtopics": [
+                {
+                  "id": "sub-1773739502158-a4u77iy88",
+                  "title": "Percentages",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-f9wre8qdu",
+                  "title": "Profit & Loss",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-0ct1otln4",
+                  "title": "Simple & Compound Interest",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-gmzcderub",
+                  "title": "Ratio & Proportion",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-oggxktiqz",
+                  "title": "Time & Work",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-s4nvy956k",
+                  "title": "Time, Speed & Distance",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-2po65tz14",
+                  "title": "Average & Partnership",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773739502158-ql8j3xru3",
+              "title": "Advanced Maths",
+              "subtopics": [
+                {
+                  "id": "sub-1773739502158-5mjudjkcx",
+                  "title": "Algebraic Identities",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-77o3x7ky4",
+                  "title": "Geometry (Lines, Triangles, Circles)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-slgz5om9o",
+                  "title": "Trigonometry & Heights",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-i55mx7up8",
+                  "title": "Mensuration (2D & 3D)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-96salqmnl",
+                  "title": "Data Interpretation (DI)",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773739502158-dmksgspgh",
+          "title": "General Intelligence & Reasoning",
+          "topics": [
+            {
+              "id": "top-1773739502158-htpzsrdf3",
+              "title": "Verbal Reasoning",
+              "subtopics": [
+                {
+                  "id": "sub-1773739502158-6prlzj5ji",
+                  "title": "Analogy & Classification",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-6zymed3jg",
+                  "title": "Series (Number & Alpha)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-bwfe0a2fl",
+                  "title": "Coding-Decoding",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-p3021ygyf",
+                  "title": "Blood Relations",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-b3z8n5hwz",
+                  "title": "Syllogism",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-24qxx5f8f",
+                  "title": "Missing Numbers",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773739502158-yhvkvaa99",
+              "title": "Non-Verbal Reasoning",
+              "subtopics": [
+                {
+                  "id": "sub-1773739502158-q927oe04m",
+                  "title": "Paper Folding & Cutting",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-utk5hlh38",
+                  "title": "Mirror & Water Images",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-epra7v9c5",
+                  "title": "Embedded Figures",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-n392nq4ci",
+                  "title": "Matrix & Venn Diagrams",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773739502158-p1skjgzr3",
+          "title": "English Comprehension",
+          "topics": [
+            {
+              "id": "top-1773739502158-c86e5utzt",
+              "title": "Grammar",
+              "subtopics": [
+                {
+                  "id": "sub-1773739502158-buag7g7jg",
+                  "title": "Error Spotting",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-y8xzd8fc6",
+                  "title": "Fill in the Blanks",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-y0u9g1exh",
+                  "title": "Active & Passive Voice",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-7dhujcja1",
+                  "title": "Direct & Indirect Speech",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773739502158-o5zfwrngb",
+              "title": "Vocabulary & Reading",
+              "subtopics": [
+                {
+                  "id": "sub-1773739502158-8fc3rdgi5",
+                  "title": "Synonyms & Antonyms",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-39eb749mb",
+                  "title": "Idioms & Phrases",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-q01u8aqjq",
+                  "title": "One Word Substitution",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-xh34r2l4c",
+                  "title": "Cloze Test & Passage",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773739502158-zyrvdpywt",
+          "title": "General Awareness",
+          "topics": [
+            {
+              "id": "top-1773739502158-30asi32en",
+              "title": "History, Polity & Geography",
+              "subtopics": [
+                {
+                  "id": "sub-1773739502158-hrw98ibvo",
+                  "title": "Indian History",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-xflgf8zb0",
+                  "title": "Constitution & Polity",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-vgfunnzwd",
+                  "title": "Geography (India & World)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-h7fbiwyqc",
+                  "title": "Indian Art & Culture",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773739502158-6l5926owk",
+              "title": "Science & Current Affairs",
+              "subtopics": [
+                {
+                  "id": "sub-1773739502158-hphd64p9t",
+                  "title": "Physics",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-p2oked1ty",
+                  "title": "Chemistry",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-lrvfxxc02",
+                  "title": "Biology & Life Sciences",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739502158-p29csxwnt",
+                  "title": "Current Affairs (Monthly)",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773739533318-4uwjofg5g",
+          "title": "Quantitative Aptitude",
+          "topics": [
+            {
+              "id": "top-1773739533318-az0qzq1t1",
+              "title": "Arithmetic",
+              "subtopics": [
+                {
+                  "id": "sub-1773739533318-27vuqx5kx",
+                  "title": "Percentages",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-klno2az29",
+                  "title": "Profit & Loss",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-1q5i58lfj",
+                  "title": "Simple & Compound Interest",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-m3ldiqnln",
+                  "title": "Ratio & Proportion",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-cd5t5s14o",
+                  "title": "Time & Work",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-3jswn0oi4",
+                  "title": "Time, Speed & Distance",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-3dt43v0b6",
+                  "title": "Average & Partnership",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773739533318-qnvwssp7n",
+              "title": "Advanced Maths",
+              "subtopics": [
+                {
+                  "id": "sub-1773739533318-fj8ip0pk1",
+                  "title": "Algebraic Identities",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-yddtoo1oh",
+                  "title": "Geometry (Lines, Triangles, Circles)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-ng74rimnw",
+                  "title": "Trigonometry & Heights",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-ot3h9p51o",
+                  "title": "Mensuration (2D & 3D)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-kzx49jlx4",
+                  "title": "Data Interpretation (DI)",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773739533318-og556q5nn",
+          "title": "General Intelligence & Reasoning",
+          "topics": [
+            {
+              "id": "top-1773739533318-8jf9l2wel",
+              "title": "Verbal Reasoning",
+              "subtopics": [
+                {
+                  "id": "sub-1773739533318-2uuotw3yf",
+                  "title": "Analogy & Classification",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-c1x0yqe1k",
+                  "title": "Series (Number & Alpha)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-f3mbuvyfl",
+                  "title": "Coding-Decoding",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-yy9cg5b43",
+                  "title": "Blood Relations",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-xzmhx8g5i",
+                  "title": "Syllogism",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-w84nz8hh3",
+                  "title": "Missing Numbers",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773739533318-820cz2008",
+              "title": "Non-Verbal Reasoning",
+              "subtopics": [
+                {
+                  "id": "sub-1773739533318-9e6whfuoa",
+                  "title": "Paper Folding & Cutting",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-noe08h5gj",
+                  "title": "Mirror & Water Images",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-iqidvn9eo",
+                  "title": "Embedded Figures",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-2i3namfyb",
+                  "title": "Matrix & Venn Diagrams",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773739533318-6wnd5kfq6",
+          "title": "English Comprehension",
+          "topics": [
+            {
+              "id": "top-1773739533318-i22k3pswu",
+              "title": "Grammar",
+              "subtopics": [
+                {
+                  "id": "sub-1773739533318-ypvx9lgj2",
+                  "title": "Error Spotting",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-3uksnjte0",
+                  "title": "Fill in the Blanks",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-regjktmlq",
+                  "title": "Active & Passive Voice",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-aepae0mlb",
+                  "title": "Direct & Indirect Speech",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773739533318-gq5karnto",
+              "title": "Vocabulary & Reading",
+              "subtopics": [
+                {
+                  "id": "sub-1773739533318-a3e0smcj6",
+                  "title": "Synonyms & Antonyms",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-gt3mdii3h",
+                  "title": "Idioms & Phrases",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-8pgfssxe0",
+                  "title": "One Word Substitution",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-0d0enyt1s",
+                  "title": "Cloze Test & Passage",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773739533318-ou12ev1kt",
+          "title": "General Awareness",
+          "topics": [
+            {
+              "id": "top-1773739533318-wxjlzpvv7",
+              "title": "History, Polity & Geography",
+              "subtopics": [
+                {
+                  "id": "sub-1773739533318-ro2pp7scg",
+                  "title": "Indian History",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-jycrzatdi",
+                  "title": "Constitution & Polity",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-gfw9tqj89",
+                  "title": "Geography (India & World)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-ai2nywhwm",
+                  "title": "Indian Art & Culture",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773739533318-j3xmpmmpx",
+              "title": "Science & Current Affairs",
+              "subtopics": [
+                {
+                  "id": "sub-1773739533318-fi62gabqx",
+                  "title": "Physics",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-g921bvkm2",
+                  "title": "Chemistry",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-s5isqxhzn",
+                  "title": "Biology & Life Sciences",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773739533318-0pgonpjgt",
+                  "title": "Current Affairs (Monthly)",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exam-1773079708902-065l9a2b9",
+      "targetExam": {
+        "name": "UPSI 2026",
+        "date": "2026-03-30T00:00:00.000Z"
+      },
+      "syllabus": [
+        {
+          "id": "subj-1773721725152-iviyb2719",
+          "title": "General Hindi",
+          "topics": [
+            {
+              "id": "top-1773721725152-2zearla5m",
+              "title": "Hindi Grammar",
+              "subtopics": [
+                {
+                  "id": "sub-1773721725152-cqlwcn96l",
+                  "title": "Nouns and Pronouns",
+                  "state": "revised"
+                },
+                {
+                  "id": "sub-1773721725152-jkcpv9cmj",
+                  "title": "Tenses",
+                  "state": "revised"
+                },
+                {
+                  "id": "sub-1773721725152-opahsxea9",
+                  "title": "Synonyms and Antonyms",
+                  "state": "revised"
+                }
+              ]
+            },
+            {
+              "id": "top-1773721725152-54cv2vyrk",
+              "title": "Literature",
+              "subtopics": [
+                {
+                  "id": "sub-1773721725152-pcixex4kd",
+                  "title": "Famous Poets & Writers",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-jkzlabmtz",
+                  "title": "Hindi Language Awards",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773721725152-dmex4zuyd",
+          "title": "Basic Law / Constitution",
+          "topics": [
+            {
+              "id": "top-1773721725152-qw2gbn8ni",
+              "title": "Basic Law",
+              "subtopics": [
+                {
+                  "id": "sub-1773721725152-y7j2jn43g",
+                  "title": "Indian Penal Code (IPC)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-q522ofdq8",
+                  "title": "Criminal Procedure Code (CrPC)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-h4q7fxewo",
+                  "title": "Women & Child Rights",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-9e8qws92j",
+                  "title": "Cyber Crimes",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773721725152-c9qtllxco",
+              "title": "Constitution",
+              "subtopics": [
+                {
+                  "id": "sub-1773721725152-wpjfgo32b",
+                  "title": "Fundamental Rights",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-i03eed8rt",
+                  "title": "Directive Principles",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-ky8n3geyh",
+                  "title": "Parliament & Judiciary",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773721725152-3e82v1w9t",
+          "title": "General Knowledge",
+          "topics": [
+            {
+              "id": "top-1773721725152-o7ml381jx",
+              "title": "History & Geography",
+              "subtopics": [
+                {
+                  "id": "sub-1773721725152-oqihb6kwa",
+                  "title": "Ancient History",
+                  "state": "revised"
+                },
+                {
+                  "id": "sub-1773721725152-v960kg4ko",
+                  "title": "Modern Indian History",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-hwdxyezkh",
+                  "title": "Indian Geography",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773721725152-af7gx5yyv",
+              "title": "Current Affairs",
+              "subtopics": [
+                {
+                  "id": "sub-1773721725152-5u6k23vxx",
+                  "title": "National News",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-0ctwvptgh",
+                  "title": "International Affairs",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773721725152-ep1plzqfx",
+          "title": "Numerical & Mental Ability",
+          "topics": [
+            {
+              "id": "top-1773721725152-58ou9h8uu",
+              "title": "Numerical Ability",
+              "subtopics": [
+                {
+                  "id": "sub-1773721725152-jwlkvvd0q",
+                  "title": "Number System",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-dtx382f0h",
+                  "title": "Percentage & Profit/Loss",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-t7pmpqgck",
+                  "title": "Time & Work",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-p4vax5yxb",
+                  "title": "Simple & Compound Interest",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773721725152-flpg6fgf3",
+              "title": "Mental Ability",
+              "subtopics": [
+                {
+                  "id": "sub-1773721725152-vhnvxnmz6",
+                  "title": "Logical Diagrams",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-cwtdsupy5",
+                  "title": "Word & Alphabet Analogy",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-z4hhfh05v",
+                  "title": "Direction Sense Test",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773721725152-c4eecbfig",
+          "title": "Reasoning Test",
+          "topics": [
+            {
+              "id": "top-1773721725152-yxfpjvs9s",
+              "title": "Verbal Reasoning",
+              "subtopics": [
+                {
+                  "id": "sub-1773721725152-glp037345",
+                  "title": "Syllogism",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-upaode3sc",
+                  "title": "Blood Relations",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-9ao6h06d9",
+                  "title": "Venn Diagrams",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773721725152-pkft54cm5",
+              "title": "Non-Verbal Reasoning",
+              "subtopics": [
+                {
+                  "id": "sub-1773721725152-h7pwn2hpg",
+                  "title": "Series Completion",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721725152-wb899xsy4",
+                  "title": "Pattern Completion",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exam-1773079760372-n496ksydu",
+      "targetExam": {
+        "name": "UPSC CIVIL SERVICES 2026",
+        "date": "2026-03-25T00:00:00.000Z"
+      },
+      "syllabus": [
+        {
+          "id": "subj-1773082018517",
+          "title": "GS-1",
+          "topics": [
+            {
+              "id": "top-1773082045370",
+              "title": "history",
+              "subtopics": [
+                {
+                  "id": "sub-1773082063199",
+                  "title": "modern history",
+                  "state": "revised"
+                },
+                {
+                  "id": "sub-1773082072547",
+                  "title": "ancient history",
+                  "state": "revised"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exam-1773081104625-ye1emltcz",
+      "targetExam": {
+        "name": "UPPSC CIVIL SERVICES",
+        "date": "2026-03-31T00:00:00.000Z"
+      },
+      "syllabus": [
+        {
+          "id": "subj-1773252087986",
+          "title": "CSAT",
+          "topics": []
+        },
+        {
+          "id": "subj-1773721872413-r6yfmuadq",
+          "title": "Quantitative Aptitude",
+          "topics": [
+            {
+              "id": "top-1773721872413-k75b6kvlh",
+              "title": "Arithmetic",
+              "subtopics": [
+                {
+                  "id": "sub-1773721872413-gf8pqadlb",
+                  "title": "Percentages",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-70myciell",
+                  "title": "Profit & Loss",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-wvwokhvkb",
+                  "title": "Simple & Compound Interest",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-j7x1c2mrr",
+                  "title": "Ratio & Proportion",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-g57z8gln4",
+                  "title": "Time & Work",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-aiwjmlbv5",
+                  "title": "Time, Speed & Distance",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-uenehba67",
+                  "title": "Average & Partnership",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773721872414-hr0kn420g",
+              "title": "Advanced Maths",
+              "subtopics": [
+                {
+                  "id": "sub-1773721872414-wc0v1bsea",
+                  "title": "Algebraic Identities",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-y6puwfxfc",
+                  "title": "Geometry (Lines, Triangles, Circles)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-gyctb2slt",
+                  "title": "Trigonometry & Heights",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-cspe9ries",
+                  "title": "Mensuration (2D & 3D)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-4778tqdri",
+                  "title": "Data Interpretation (DI)",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773721872414-jlazt6it8",
+          "title": "General Intelligence & Reasoning",
+          "topics": [
+            {
+              "id": "top-1773721872414-o8h7od3q9",
+              "title": "Verbal Reasoning",
+              "subtopics": [
+                {
+                  "id": "sub-1773721872414-1e2c5fed3",
+                  "title": "Analogy & Classification",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-hlvjbvg6j",
+                  "title": "Series (Number & Alpha)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-yb1s7l6da",
+                  "title": "Coding-Decoding",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-8bwbtlhg7",
+                  "title": "Blood Relations",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-wfk3jqvlu",
+                  "title": "Syllogism",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-qatmu2c15",
+                  "title": "Missing Numbers",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773721872414-pmazhg945",
+              "title": "Non-Verbal Reasoning",
+              "subtopics": [
+                {
+                  "id": "sub-1773721872414-htzbavg3d",
+                  "title": "Paper Folding & Cutting",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-ps7flfyna",
+                  "title": "Mirror & Water Images",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-8qg08i5lj",
+                  "title": "Embedded Figures",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-p088cxwfv",
+                  "title": "Matrix & Venn Diagrams",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773721872414-cuceteg7h",
+          "title": "English Comprehension",
+          "topics": [
+            {
+              "id": "top-1773721872414-4tldex7hd",
+              "title": "Grammar",
+              "subtopics": [
+                {
+                  "id": "sub-1773721872414-3n933b9go",
+                  "title": "Error Spotting",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-ze2rcmt2h",
+                  "title": "Fill in the Blanks",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-u8vo8cme5",
+                  "title": "Active & Passive Voice",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-eoa6bd7tu",
+                  "title": "Direct & Indirect Speech",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773721872414-veet3t8sh",
+              "title": "Vocabulary & Reading",
+              "subtopics": [
+                {
+                  "id": "sub-1773721872414-65truxurd",
+                  "title": "Synonyms & Antonyms",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-iuthp4qe0",
+                  "title": "Idioms & Phrases",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-71p1a02h8",
+                  "title": "One Word Substitution",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-v1jw8tz0d",
+                  "title": "Cloze Test & Passage",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773721872414-4rrpsbe1c",
+          "title": "General Awareness",
+          "topics": [
+            {
+              "id": "top-1773721872414-56v84hfta",
+              "title": "History, Polity & Geography",
+              "subtopics": [
+                {
+                  "id": "sub-1773721872414-q1zofzt2w",
+                  "title": "Indian History",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-bnesmrpg6",
+                  "title": "Constitution & Polity",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-wu1jacs2n",
+                  "title": "Geography (India & World)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-uveeumeh7",
+                  "title": "Indian Art & Culture",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773721872414-3ijrlzlbr",
+              "title": "Science & Current Affairs",
+              "subtopics": [
+                {
+                  "id": "sub-1773721872414-6d7e3ls3s",
+                  "title": "Physics",
+                  "state": "revised"
+                },
+                {
+                  "id": "sub-1773721872414-x6bqnfmfr",
+                  "title": "Chemistry",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-p91q67l0y",
+                  "title": "Biology & Life Sciences",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773721872414-chgt40rt7",
+                  "title": "Current Affairs (Monthly)",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exam-1773086436574-kbuttrh8i",
+      "targetExam": {
+        "name": "UP Police SI",
+        "date": "2026-03-31T00:00:00.000Z"
+      },
+      "syllabus": [
+        {
+          "id": "subj-1773086436574-ao9n7dcvk",
+          "title": "General Hindi",
+          "topics": [
+            {
+              "id": "top-1773086436574-hfh0y058s",
+              "title": "Hindi Grammar",
+              "subtopics": [
+                {
+                  "id": "sub-1773086436574-luk61pcgv",
+                  "title": "Nouns and Pronouns",
+                  "state": "revised"
+                },
+                {
+                  "id": "sub-1773086436574-14czys92r",
+                  "title": "Tenses",
+                  "state": "revised"
+                },
+                {
+                  "id": "sub-1773086436574-r6m0zhwld",
+                  "title": "Synonyms and Antonyms",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773086436574-kfdyd92qu",
+              "title": "Literature",
+              "subtopics": [
+                {
+                  "id": "sub-1773086436574-quasgd2sd",
+                  "title": "Famous Poets & Writers",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-4rt0qr7g1",
+                  "title": "Hindi Language Awards",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773086436574-oqqez0ki3",
+          "title": "Basic Law / Constitution",
+          "topics": [
+            {
+              "id": "top-1773086436574-kfcdp1ebf",
+              "title": "Basic Law",
+              "subtopics": [
+                {
+                  "id": "sub-1773086436574-ey2pftdvb",
+                  "title": "Indian Penal Code (IPC)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-bna2o2mb7",
+                  "title": "Criminal Procedure Code (CrPC)",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-n16gl568x",
+                  "title": "Women & Child Rights",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-l3elsp90w",
+                  "title": "Cyber Crimes",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773086436574-8by9eir9m",
+              "title": "Constitution",
+              "subtopics": [
+                {
+                  "id": "sub-1773086436574-rqj4r8rye",
+                  "title": "Fundamental Rights",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-7qdcz4f5n",
+                  "title": "Directive Principles",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-pvwh4o3hk",
+                  "title": "Parliament & Judiciary",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773086436574-t6ifpq0lv",
+          "title": "General Knowledge",
+          "topics": [
+            {
+              "id": "top-1773086436574-d69wwod8p",
+              "title": "History & Geography",
+              "subtopics": [
+                {
+                  "id": "sub-1773086436574-qpfdyiplp",
+                  "title": "Ancient History",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-gpwm0iwu3",
+                  "title": "Modern Indian History",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-4ou6hkso7",
+                  "title": "Indian Geography",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773086436574-ou5om0dzr",
+              "title": "Current Affairs",
+              "subtopics": [
+                {
+                  "id": "sub-1773086436574-qou2n7n8f",
+                  "title": "National News",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-bk5vipsk8",
+                  "title": "International Affairs",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773086436574-t34487zqn",
+          "title": "Numerical & Mental Ability",
+          "topics": [
+            {
+              "id": "top-1773086436574-ifjlxckur",
+              "title": "Numerical Ability",
+              "subtopics": [
+                {
+                  "id": "sub-1773086436574-xt0h3gcaa",
+                  "title": "Number System",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-0sb838d2k",
+                  "title": "Percentage & Profit/Loss",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-jx1dlxnit",
+                  "title": "Time & Work",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-15lmibqtr",
+                  "title": "Simple & Compound Interest",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773086436574-hgjxz1gkb",
+              "title": "Mental Ability",
+              "subtopics": [
+                {
+                  "id": "sub-1773086436574-iyo2fx9fg",
+                  "title": "Logical Diagrams",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-knladuxnv",
+                  "title": "Word & Alphabet Analogy",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-4yj4ok4as",
+                  "title": "Direction Sense Test",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773086436574-qkhhwk74v",
+          "title": "Reasoning Test",
+          "topics": [
+            {
+              "id": "top-1773086436574-5wtns08d5",
+              "title": "Verbal Reasoning",
+              "subtopics": [
+                {
+                  "id": "sub-1773086436574-uvjkhp3rn",
+                  "title": "Syllogism",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-3ch0dmc96",
+                  "title": "Blood Relations",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-w2x0b0tdx",
+                  "title": "Venn Diagrams",
+                  "state": "none"
+                }
+              ]
+            },
+            {
+              "id": "top-1773086436574-ts99k7avu",
+              "title": "Non-Verbal Reasoning",
+              "subtopics": [
+                {
+                  "id": "sub-1773086436574-x43eik7f9",
+                  "title": "Series Completion",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773086436574-o3oumhlqd",
+                  "title": "Pattern Completion",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exam-1773205206987-ttdrv16u6",
+      "targetExam": {
+        "name": "RRB NTPC GRADUATE LEVEL 2026",
+        "date": "2026-03-13T00:00:00.000Z"
+      },
+      "syllabus": [
+        {
+          "id": "subj-1773205528715-y3g3t3mu1",
+          "title": "General Awareness",
+          "topics": [
+            {
+              "id": "top-1773205528715-ff8tuceuk",
+              "title": "Static GK & Current Affairs",
+              "subtopics": [
+                {
+                  "id": "sub-1773205528715-3xy3d1ef2",
+                  "title": "National & International Events",
+                  "state": "revised"
+                },
+                {
+                  "id": "sub-1773205528715-1bwoiha5d",
+                  "title": "Art, Culture & Monuments of India",
+                  "state": "revised"
+                }
+              ]
+            },
+            {
+              "id": "top-1773205528715-5ynuxgrkb",
+              "title": "General Science",
+              "subtopics": [
+                {
+                  "id": "sub-1773205528715-qv2x4t2kv",
+                  "title": "Physics, Chemistry & Life Science (10th Level)",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "subj-1773205528715-r42lf1eln",
+          "title": "Mathematics",
+          "topics": [
+            {
+              "id": "top-1773205528715-lbwl5cujw",
+              "title": "Basic Numeracy",
+              "subtopics": [
+                {
+                  "id": "sub-1773205528715-a77i1myp4",
+                  "title": "Number System, LCM & HCF",
+                  "state": "none"
+                },
+                {
+                  "id": "sub-1773205528715-mkjwqsyzq",
+                  "title": "Decimals & Fractions",
+                  "state": "none"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "activeExamId": "exam-legacy"
+}

@@ -1,0 +1,64 @@
+{
+    "id": "rrb_ntpc_2026_cbt1",
+    "targetExam": {
+        "name": "RRB NTPC 2026 (CBT 1)",
+        "date": "2026-08-15T00:00:00.000Z"
+    },
+    "syllabus": [
+        {
+            "id": "subj_rrb_1",
+            "title": "General Awareness",
+            "topics": [
+                {
+                    "id": "top_rrb_ga1",
+                    "title": "Static GK & Current Affairs",
+                    "subtopics": [
+                        {
+                            "id": "sub_rrb_ga1_1",
+                            "title": "National & International Events",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_rrb_ga1_2",
+                            "title": "Art, Culture & Monuments of India",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_rrb_ga2",
+                    "title": "General Science",
+                    "subtopics": [
+                        {
+                            "id": "sub_rrb_ga2_1",
+                            "title": "Physics, Chemistry & Life Science (10th Level)",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "subj_rrb_2",
+            "title": "Mathematics",
+            "topics": [
+                {
+                    "id": "top_rrb_m1",
+                    "title": "Basic Numeracy",
+                    "subtopics": [
+                        {
+                            "id": "sub_rrb_m1_1",
+                            "title": "Number System, LCM & HCF",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_rrb_m1_2",
+                            "title": "Decimals & Fractions",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

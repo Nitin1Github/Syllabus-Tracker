@@ -1,0 +1,148 @@
+{
+    "id": "jee_main_2026",
+    "targetExam": {
+        "name": "JEE Main 2026",
+        "date": "2026-01-24T00:00:00.000Z"
+    },
+    "syllabus": [
+        {
+            "id": "subj_jee_phy",
+            "title": "Physics",
+            "topics": [
+                {
+                    "id": "top_jee_phy_1",
+                    "title": "Mechanics",
+                    "subtopics": [
+                        {
+                            "id": "sub_jee_phy_1",
+                            "title": "Kinematics & Laws of Motion",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_jee_phy_2",
+                            "title": "Work, Energy, and Power",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_jee_phy_3",
+                            "title": "Rotational Motion",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_jee_phy_2",
+                    "title": "Electromagnetism",
+                    "subtopics": [
+                        {
+                            "id": "sub_jee_phy_4",
+                            "title": "Electrostatics & Current Electricity",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_jee_phy_5",
+                            "title": "Magnetic Effects of Current & Magnetism",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_jee_phy_6",
+                            "title": "Electromagnetic Induction & Alternating Currents",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "subj_jee_chem",
+            "title": "Chemistry",
+            "topics": [
+                {
+                    "id": "top_jee_chem_1",
+                    "title": "Physical Chemistry",
+                    "subtopics": [
+                        {
+                            "id": "sub_jee_chem_1",
+                            "title": "Some Basic Concepts in Chemistry",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_jee_chem_2",
+                            "title": "Atomic Structure & Chemical Bonding",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_jee_chem_3",
+                            "title": "Chemical Thermodynamics",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_jee_chem_2",
+                    "title": "Organic Chemistry",
+                    "subtopics": [
+                        {
+                            "id": "sub_jee_chem_4",
+                            "title": "Some Basic Principles of Organic Chemistry",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_jee_chem_5",
+                            "title": "Hydrocarbons",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "subj_jee_math",
+            "title": "Mathematics",
+            "topics": [
+                {
+                    "id": "top_jee_math_1",
+                    "title": "Algebra",
+                    "subtopics": [
+                        {
+                            "id": "sub_jee_math_1",
+                            "title": "Sets, Relations, and Functions",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_jee_math_2",
+                            "title": "Complex Numbers and Quadratic Equations",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_jee_math_3",
+                            "title": "Matrices and Determinants",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_jee_math_2",
+                    "title": "Calculus",
+                    "subtopics": [
+                        {
+                            "id": "sub_jee_math_4",
+                            "title": "Limit, Continuity and Differentiability",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_jee_math_5",
+                            "title": "Integral Calculus",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_jee_math_6",
+                            "title": "Differential Equations",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,190 @@
+{
+    "id": "upsssc_lekhpal_2026",
+    "targetExam": {
+        "name": "UPSSSC Lekhpal 2026",
+        "date": "2026-05-21T00:00:00.000Z"
+    },
+    "syllabus": [
+        {
+            "id": "subj_lekhpal_ga_apt",
+            "title": "General Awareness & Aptitude",
+            "topics": [
+                {
+                    "id": "top_lekhpal_hindi",
+                    "title": "General Hindi",
+                    "subtopics": [
+                        {
+                            "id": "sub_hindi_1",
+                            "title": "Grammar (Sandhi, Samas, Punctuation)",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_hindi_2",
+                            "title": "Vocabulary (Synonyms, Antonyms, Idioms)",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_hindi_3",
+                            "title": "Official Correspondence (Letters, Notifications)",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_lekhpal_hist_pol",
+                    "title": "History & Polity",
+                    "subtopics": [
+                        {
+                            "id": "sub_hist_1",
+                            "title": "Indian National Movement & Freedom Struggle",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_pol_1",
+                            "title": "Indian Constitution & Panchayati Raj",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_pol_2",
+                            "title": "Public Policy & Community Development",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_lekhpal_geo_eco",
+                    "title": "Geography, Economy & Rural Society",
+                    "subtopics": [
+                        {
+                            "id": "sub_geo_1",
+                            "title": "Physical & Economic Geography of India/World",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_eco_1",
+                            "title": "Indian Economy, NITI Aayog & Budgeting",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_rural_1",
+                            "title": "Rural Society, Land Reforms & Govt Schemes",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_lekhpal_sci_env",
+                    "title": "Science, Environment & DI",
+                    "subtopics": [
+                        {
+                            "id": "sub_sci_1",
+                            "title": "Science & Technology Achievements",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_env_1",
+                            "title": "Environmental Ecology & Disaster Management",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_di_1",
+                            "title": "Data Interpretation (Graphs, Charts, Tables)",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "subj_lekhpal_comp_it",
+            "title": "Computer & Information Technology",
+            "topics": [
+                {
+                    "id": "top_lekhpal_comp_basics",
+                    "title": "Computer Fundamentals",
+                    "subtopics": [
+                        {
+                            "id": "sub_comp_1",
+                            "title": "Hardware, Software & Operating Systems",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_comp_2",
+                            "title": "MS Office (Word, Excel) & Social Networking",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_comp_3",
+                            "title": "Internet, Email & World Wide Web",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_lekhpal_future_tech",
+                    "title": "Emerging Tech & Cyber Security",
+                    "subtopics": [
+                        {
+                            "id": "sub_tech_1",
+                            "title": "AI, Machine Learning & Deep Learning",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_tech_2",
+                            "title": "Big Data, IoT & Cyber Security",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_tech_3",
+                            "title": "Digital Financial Tools & E-Governance",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "subj_lekhpal_up_gk",
+            "title": "General Knowledge of Uttar Pradesh",
+            "topics": [
+                {
+                    "id": "top_lekhpal_up_static",
+                    "title": "UP State Profile",
+                    "subtopics": [
+                        {
+                            "id": "sub_up_1",
+                            "title": "History, Culture & Art of Uttar Pradesh",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_up_2",
+                            "title": "Geography, Natural Resources & Climate of UP",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_up_3",
+                            "title": "Polity & Administration of UP",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_lekhpal_up_current",
+                    "title": "UP Economy & Current Affairs",
+                    "subtopics": [
+                        {
+                            "id": "sub_up_4",
+                            "title": "Agriculture, Industry & Employment in UP",
+                            "state": "none"
+                        },
+                        {
+                            "id": "sub_up_5",
+                            "title": "Current Events & Achievements of UP State",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ExamTracker</string>
+    <string name="title_activity_main">ExamTracker</string>
+    <string name="package_name">com.examtracker.app</string>
+    <string name="custom_url_scheme">com.examtracker.app</string>
+</resources>

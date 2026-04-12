@@ -1,0 +1,271 @@
+{
+    "id": "ssc_cgl_2026_full",
+    "targetExam": {
+        "name": "SSC CGL 2026 (Tier 1 & 2)",
+        "date": "2026-09-01T00:00:00.000Z"
+    },
+    "syllabus": [
+        {
+            "id": "subj_quant",
+            "title": "Quantitative Aptitude",
+            "topics": [
+                {
+                    "id": "top_arithmetic",
+                    "title": "Arithmetic",
+                    "subtopics": [
+                        {
+                            "id": "st_percentage",
+                            "title": "Percentages",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_profit_loss",
+                            "title": "Profit & Loss",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_interest",
+                            "title": "Simple & Compound Interest",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_ratio",
+                            "title": "Ratio & Proportion",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_time_work",
+                            "title": "Time & Work",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_time_distance",
+                            "title": "Time, Speed & Distance",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_average",
+                            "title": "Average & Partnership",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_advanced",
+                    "title": "Advanced Maths",
+                    "subtopics": [
+                        {
+                            "id": "st_algebra",
+                            "title": "Algebraic Identities",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_geometry",
+                            "title": "Geometry (Lines, Triangles, Circles)",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_trig",
+                            "title": "Trigonometry & Heights",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_mensuration",
+                            "title": "Mensuration (2D & 3D)",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_di",
+                            "title": "Data Interpretation (DI)",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "subj_reasoning",
+            "title": "General Intelligence & Reasoning",
+            "topics": [
+                {
+                    "id": "top_verbal",
+                    "title": "Verbal Reasoning",
+                    "subtopics": [
+                        {
+                            "id": "st_analogy",
+                            "title": "Analogy & Classification",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_series",
+                            "title": "Series (Number & Alpha)",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_coding",
+                            "title": "Coding-Decoding",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_blood",
+                            "title": "Blood Relations",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_syllogism",
+                            "title": "Syllogism",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_missing",
+                            "title": "Missing Numbers",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_non_verbal",
+                    "title": "Non-Verbal Reasoning",
+                    "subtopics": [
+                        {
+                            "id": "st_paper_fold",
+                            "title": "Paper Folding & Cutting",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_mirror",
+                            "title": "Mirror & Water Images",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_embedded",
+                            "title": "Embedded Figures",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_matrix",
+                            "title": "Matrix & Venn Diagrams",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "subj_english",
+            "title": "English Comprehension",
+            "topics": [
+                {
+                    "id": "top_grammar",
+                    "title": "Grammar",
+                    "subtopics": [
+                        {
+                            "id": "st_error",
+                            "title": "Error Spotting",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_filler",
+                            "title": "Fill in the Blanks",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_active_passive",
+                            "title": "Active & Passive Voice",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_narration",
+                            "title": "Direct & Indirect Speech",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_vocab",
+                    "title": "Vocabulary & Reading",
+                    "subtopics": [
+                        {
+                            "id": "st_syn_ant",
+                            "title": "Synonyms & Antonyms",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_idioms",
+                            "title": "Idioms & Phrases",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_oneword",
+                            "title": "One Word Substitution",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_cloze",
+                            "title": "Cloze Test & Passage",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "subj_gk",
+            "title": "General Awareness",
+            "topics": [
+                {
+                    "id": "top_static_gk",
+                    "title": "History, Polity & Geography",
+                    "subtopics": [
+                        {
+                            "id": "st_history",
+                            "title": "Indian History",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_polity",
+                            "title": "Constitution & Polity",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_geography",
+                            "title": "Geography (India & World)",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_culture",
+                            "title": "Indian Art & Culture",
+                            "state": "none"
+                        }
+                    ]
+                },
+                {
+                    "id": "top_science_ca",
+                    "title": "Science & Current Affairs",
+                    "subtopics": [
+                        {
+                            "id": "st_physics",
+                            "title": "Physics",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_chemistry",
+                            "title": "Chemistry",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_biology",
+                            "title": "Biology & Life Sciences",
+                            "state": "none"
+                        },
+                        {
+                            "id": "st_current",
+                            "title": "Current Affairs (Monthly)",
+                            "state": "none"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

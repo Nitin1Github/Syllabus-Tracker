@@ -45,3 +45,11 @@ export interface AppEvent {
   reminderEnabled: boolean;
   notificationId?: number;
 }
+
+export interface MockTest {
+  id: string;
+  testName: string;
+  score: number;
+  totalMarks: number;
+  date: string;
+}

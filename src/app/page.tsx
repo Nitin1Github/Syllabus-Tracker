@@ -6,7 +6,8 @@ import ProgressBar from '@/components/ProgressBar';
 import SyllabusTracker from '@/components/SyllabusTracker';
 import { SettingsModal } from '@/components/SettingsModal';
 import ActionMenu from '@/components/ActionMenu';
-import { Loader2, BookOpen, Settings, PlusCircle, X, Download, CalendarCheck, Plus, BarChart3, User, TrendingUp, LayoutDashboard, Edit2, Timer, PieChart, Trash2, Play, Pause, RotateCcw, Check, Bell } from 'lucide-react';
+import { Loader2, BookOpen, Settings, PlusCircle, X, Download, CalendarCheck, Plus, BarChart3, User, TrendingUp, LayoutDashboard, Edit2, Timer, PieChart, Trash2, Play, Pause, RotateCcw, Check, Bell, ClipboardList } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -1001,38 +1002,288 @@ function FocusView() {
 }
 
 function InsightsView() {
+    const mockTests = useAppStore(state => state.mockTests);
+    const addMockTest = useAppStore(state => state.addMockTest);
+    const [isLogModalOpen, setIsLogModalOpen] = useState(false);
+
+    const chartData = useMemo(() => {
+        return [...mockTests]
+            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+            .map(t => ({
+                name: t.testName.length > 12 ? t.testName.slice(0, 12) + '…' : t.testName,
+                fullName: t.testName,
+                percentage: Math.round((t.score / t.totalMarks) * 100),
+                score: t.score,
+                totalMarks: t.totalMarks,
+                date: t.date,
+            }));
+    }, [mockTests]);
+
+    const averagePercentage = useMemo(() => {
+        if (chartData.length === 0) return 0;
+        const sum = chartData.reduce((acc, d) => acc + d.percentage, 0);
+        return Math.round(sum / chartData.length);
+    }, [chartData]);
+
+    const bestScore = useMemo(() => {
+        if (chartData.length === 0) return 0;
+        return Math.max(...chartData.map(d => d.percentage));
+    }, [chartData]);
+
+    const latestTrend = useMemo(() => {
+        if (chartData.length < 2) return 0;
+        return chartData[chartData.length - 1].percentage - chartData[chartData.length - 2].percentage;
+    }, [chartData]);
+
+    const handleDeleteMockTest = (id: string) => {
+        if (window.confirm('Delete this mock test log?')) {
+            const updated = mockTests.filter(t => t.id !== id);
+            useAppStore.setState({ mockTests: updated });
+            if (typeof window !== 'undefined') localStorage.setItem('mockTests', JSON.stringify(updated));
+        }
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const CustomTooltip = ({ active, payload }: any) => {
+        if (active && payload && payload.length) {
+            const d = payload[0].payload;
+            return (
+                <div className="bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-xl p-3 shadow-xl text-sm">
+                    <p className="font-bold text-gray-900 dark:text-white mb-1">{d.fullName}</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-xs mb-1">{new Date(d.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                    <p className="font-black text-lg" style={{ color: 'var(--theme-primary)' }}>{d.percentage}%</p>
+                    <p className="text-xs text-gray-400">{d.score}/{d.totalMarks} marks</p>
+                </div>
+            );
+        }
+        return null;
+    };
+
     return (
         <section className="animate-in fade-in duration-300 space-y-6">
-            <h2 className="text-2xl font-extrabold tracking-tight">Accuracy Insights</h2>
-            
-            <div className="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-sm border border-gray-100 dark:border-zinc-800 flex flex-col items-center justify-center text-center py-10">
-                <div className="relative mb-6">
-                    <svg width="160" height="160" className="transform -rotate-90">
-                        <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="16" fill="transparent" className="text-gray-100 dark:text-zinc-800" />
-                        <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="16" fill="transparent" strokeDasharray={440} strokeDashoffset={440 - (85 / 100) * 440} className="transition-all duration-1000 ease-out" style={{ color: 'var(--theme-primary)' }} strokeLinecap="round" />
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center flex-col">
-                        <span className="text-3xl font-black">85%</span>
+            <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-extrabold tracking-tight">Score Trends</h2>
+                <button
+                    onClick={() => setIsLogModalOpen(true)}
+                    className="flex items-center gap-1.5 text-sm font-medium text-white px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition-all active:scale-95"
+                    style={{ backgroundColor: 'var(--theme-primary)' }}
+                >
+                    <Plus className="w-4 h-4" /> Log Test
+                </button>
+            </div>
+
+            {/* Summary Stats Cards */}
+            {mockTests.length > 0 && (
+                <div className="grid grid-cols-3 gap-3">
+                    <div className="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-zinc-800 text-center">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-1">Average</p>
+                        <p className="text-2xl font-black" style={{ color: 'var(--theme-primary)' }}>{averagePercentage}%</p>
+                    </div>
+                    <div className="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-zinc-800 text-center">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-1">Best</p>
+                        <p className="text-2xl font-black text-emerald-500">{bestScore}%</p>
+                    </div>
+                    <div className="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-zinc-800 text-center">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-1">Trend</p>
+                        <p className={cn("text-2xl font-black", latestTrend >= 0 ? "text-emerald-500" : "text-red-500")}>
+                            {latestTrend >= 0 ? '+' : ''}{latestTrend}%
+                        </p>
                     </div>
                 </div>
-                <h3 className="text-xl font-bold mb-1">Master Accuracy</h3>
-                <p className="text-sm text-gray-500 max-w-[200px] leading-relaxed">Based on your recent tests and revision habits.</p>
-            </div>
-            
-            <div className="space-y-4">
-                <h3 className="font-bold text-lg px-1">By Subject</h3>
-                {['History', 'Geography', 'Polity'].map((subj, i) => (
-                    <div key={subj} className="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-zinc-800">
-                        <div className="flex justify-between items-end mb-2">
-                            <span className="font-bold text-sm">{subj}</span>
-                            <span className="text-sm font-black" style={{ color: 'var(--theme-primary)' }}>{90 - i * 10}%</span>
+            )}
+
+            {/* Line Chart */}
+            <div className="bg-white dark:bg-zinc-900 rounded-3xl p-5 sm:p-6 shadow-sm border border-gray-100 dark:border-zinc-800">
+                <h3 className="font-bold text-lg mb-1">Mock Test Score Trend</h3>
+                <p className="text-xs text-gray-400 dark:text-gray-500 mb-5">Track your improvement over time</p>
+                {chartData.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-14 text-center">
+                        <div className="w-16 h-16 rounded-2xl bg-gray-100 dark:bg-zinc-800 flex items-center justify-center mb-4">
+                            <ClipboardList className="w-8 h-8 text-gray-300 dark:text-zinc-600" />
                         </div>
-                        <div className="h-2.5 w-full bg-gray-100 dark:bg-zinc-800 rounded-full overflow-hidden">
-                            <div className="h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${90 - i * 10}%`, backgroundColor: 'var(--theme-primary)' }} />
+                        <p className="text-gray-500 dark:text-gray-400 font-medium">No mock tests logged yet.</p>
+                        <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">Tap "Log Test" to record your first score.</p>
+                    </div>
+                ) : (
+                    <div className="w-full h-[260px] sm:h-[300px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart data={chartData} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
+                                <defs>
+                                    <linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="var(--theme-primary)" stopOpacity={0.3} />
+                                        <stop offset="95%" stopColor="var(--theme-primary)" stopOpacity={0.02} />
+                                    </linearGradient>
+                                </defs>
+                                <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.1} />
+                                <XAxis
+                                    dataKey="name"
+                                    tick={{ fontSize: 11, fill: '#9ca3af' }}
+                                    axisLine={false}
+                                    tickLine={false}
+                                    dy={5}
+                                />
+                                <YAxis
+                                    domain={[0, 100]}
+                                    tick={{ fontSize: 11, fill: '#9ca3af' }}
+                                    axisLine={false}
+                                    tickLine={false}
+                                    tickFormatter={(v: number) => `${v}%`}
+                                />
+                                <Tooltip content={<CustomTooltip />} />
+                                <Area
+                                    type="monotone"
+                                    dataKey="percentage"
+                                    stroke="var(--theme-primary)"
+                                    strokeWidth={3}
+                                    fill="url(#scoreGradient)"
+                                    dot={{ r: 5, fill: 'var(--theme-primary)', stroke: '#fff', strokeWidth: 2 }}
+                                    activeDot={{ r: 7, fill: 'var(--theme-primary)', stroke: '#fff', strokeWidth: 3 }}
+                                />
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    </div>
+                )}
+            </div>
+
+            {/* Recent Test Logs */}
+            {mockTests.length > 0 && (
+                <div className="space-y-3">
+                    <h3 className="font-bold text-lg px-1">Recent Test Logs</h3>
+                    {[...mockTests].reverse().map((test) => {
+                        const pct = Math.round((test.score / test.totalMarks) * 100);
+                        return (
+                            <div key={test.id} className="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-zinc-800 flex items-center justify-between gap-4 group">
+                                <div className="flex items-center gap-4 flex-1 min-w-0">
+                                    <div className="relative w-12 h-12 flex-shrink-0">
+                                        <svg className="w-12 h-12 -rotate-90 transform" viewBox="0 0 44 44">
+                                            <circle cx="22" cy="22" r="18" fill="none" className="stroke-gray-100 dark:stroke-zinc-800" strokeWidth="4" />
+                                            <circle
+                                                cx="22" cy="22" r="18" fill="none"
+                                                strokeWidth="4"
+                                                strokeDasharray={2 * Math.PI * 18}
+                                                strokeDashoffset={2 * Math.PI * 18 - (pct / 100) * 2 * Math.PI * 18}
+                                                strokeLinecap="round"
+                                                className="transition-all duration-500"
+                                                style={{ stroke: pct >= 70 ? '#10b981' : pct >= 40 ? 'var(--theme-primary)' : '#ef4444' }}
+                                            />
+                                        </svg>
+                                        <span className="absolute inset-0 flex items-center justify-center text-[11px] font-black">{pct}%</span>
+                                    </div>
+                                    <div className="min-w-0">
+                                        <h4 className="font-bold text-sm truncate">{test.testName}</h4>
+                                        <p className="text-xs text-gray-400 dark:text-gray-500">
+                                            {new Date(test.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                            <span className="ml-2 text-gray-300 dark:text-zinc-600">•</span>
+                                            <span className="ml-2">{test.score}/{test.totalMarks}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => handleDeleteMockTest(test.id)}
+                                    className="opacity-0 group-hover:opacity-100 p-2 text-gray-300 hover:text-red-500 dark:text-zinc-600 dark:hover:text-red-400 transition-all rounded-lg hover:bg-red-50 dark:hover:bg-red-950/20"
+                                >
+                                    <Trash2 className="w-4 h-4" />
+                                </button>
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
+
+            {isLogModalOpen && (
+                <LogMockTestModal
+                    onClose={() => setIsLogModalOpen(false)}
+                    onSave={(test) => {
+                        addMockTest(test);
+                        setIsLogModalOpen(false);
+                    }}
+                />
+            )}
+        </section>
+    );
+}
+
+function LogMockTestModal({ onClose, onSave }: { onClose: () => void, onSave: (test: { testName: string, score: number, totalMarks: number, date: string }) => void }) {
+    const [testName, setTestName] = useState('');
+    const [score, setScore] = useState('');
+    const [totalMarks, setTotalMarks] = useState('');
+    const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+
+    const handleSave = () => {
+        const s = parseFloat(score);
+        const t = parseFloat(totalMarks);
+        if (testName.trim() && !isNaN(s) && !isNaN(t) && t > 0 && s >= 0 && s <= t && date) {
+            onSave({ testName: testName.trim(), score: s, totalMarks: t, date });
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+            <div className="bg-white dark:bg-zinc-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden p-6 animate-in zoom-in duration-200">
+                <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-xl font-bold">Log Mock Test</h3>
+                    <button onClick={onClose} className="p-1 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-full transition-colors">
+                        <X className="w-5 h-5 text-gray-500" />
+                    </button>
+                </div>
+
+                <div className="space-y-4">
+                    <div className="space-y-1">
+                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Test Name</label>
+                        <input
+                            type="text"
+                            autoFocus
+                            placeholder="e.g. UP SI Full Test 1"
+                            className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+                            value={testName}
+                            onChange={e => setTestName(e.target.value)}
+                        />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Score</label>
+                            <input
+                                type="number"
+                                min="0"
+                                placeholder="85"
+                                className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+                                value={score}
+                                onChange={e => setScore(e.target.value)}
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Marks</label>
+                            <input
+                                type="number"
+                                min="1"
+                                placeholder="200"
+                                className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+                                value={totalMarks}
+                                onChange={e => setTotalMarks(e.target.value)}
+                            />
                         </div>
                     </div>
-                ))}
+                    <div className="space-y-1">
+                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</label>
+                        <input
+                            type="date"
+                            className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+                            value={date}
+                            onChange={e => setDate(e.target.value)}
+                        />
+                    </div>
+                </div>
+
+                <div className="mt-8">
+                    <button
+                        onClick={handleSave}
+                        className="w-full py-3.5 text-white rounded-xl font-bold shadow-lg transition-all hover:opacity-90 active:scale-[0.98]"
+                        style={{ backgroundColor: 'var(--theme-primary)', boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)' }}
+                    >
+                        Save Mock Test
+                    </button>
+                </div>
             </div>
-        </section>
+        </div>
     );
 }

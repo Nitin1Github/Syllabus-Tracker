@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AppData, ProgressState, Subject, Topic, SubTopic, ExamData, AppEvent } from '@/lib/types';
+import { AppData, ProgressState, Subject, Topic, SubTopic, ExamData, AppEvent, MockTest } from '@/lib/types';
 
 interface AppState {
     data: AppData | null;
@@ -11,10 +11,13 @@ interface AppState {
     userTargetExam: string;
     userContact: string;
     events: AppEvent[];
+    mockTests: MockTest[];
 
     addEvent: (event: Omit<AppEvent, 'id'>) => void;
     deleteEvent: (eventId: string) => void;
     toggleEventReminder: (eventId: string, enabled: boolean, scheduledId?: number) => void;
+
+    addMockTest: (test: Omit<MockTest, 'id'>) => void;
 
     setThemeColor: (color: string) => void;
     setThemeImage: (image: string) => void;
@@ -59,6 +62,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     userTargetExam: '',
     userContact: '',
     events: [],
+    mockTests: [],
 
     setThemeColor: (color) => {
         set({ themeColor: color });
@@ -97,13 +101,15 @@ export const useAppStore = create<AppState>((set, get) => ({
             const savedTarget = localStorage.getItem('userTargetExam');
             const savedContact = localStorage.getItem('userContact');
             const savedEvents = localStorage.getItem('events');
+            const savedMockTests = localStorage.getItem('mockTests');
             set({
                 themeColor: savedColor || 'indigo',
                 themeImage: savedImage || '',
                 userName: savedName || 'Aspirant',
                 userTargetExam: savedTarget || '',
                 userContact: savedContact || '',
-                events: savedEvents ? JSON.parse(savedEvents) : []
+                events: savedEvents ? JSON.parse(savedEvents) : [],
+                mockTests: savedMockTests ? JSON.parse(savedMockTests) : []
             });
             // Note: data loading is shifted to page.tsx using useEffect
         } else {
@@ -509,5 +515,12 @@ export const useAppStore = create<AppState>((set, get) => ({
         const newEvents = get().events.map(e => e.id === eventId ? { ...e, reminderEnabled: enabled, notificationId: scheduledId } : e);
         set({ events: newEvents });
         if (typeof window !== 'undefined') localStorage.setItem('events', JSON.stringify(newEvents));
+    },
+
+    addMockTest: (testData) => {
+        const newTest = { ...testData, id: `mock-${Date.now()}` };
+        const newMockTests = [...get().mockTests, newTest];
+        set({ mockTests: newMockTests });
+        if (typeof window !== 'undefined') localStorage.setItem('mockTests', JSON.stringify(newMockTests));
     }
 }));

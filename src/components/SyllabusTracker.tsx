@@ -72,8 +72,8 @@ export default function SyllabusTracker({ syllabus }: SyllabusTrackerProps) {
 }
 
 function SubjectNode({ subject }: { subject: Subject }) {
-    const [isOpen, setIsOpen] = useState(true);
-    const { addTopic, updateSubject, deleteSubject } = useAppStore();
+    const { addTopic, updateSubject, deleteSubject, toggleSubjectExpansion } = useAppStore();
+    const isOpen = subject.isExpanded ?? true;
     const [isAddingTopic, setIsAddingTopic] = useState(false);
     const [newTopicTitle, setNewTopicTitle] = useState('');
 
@@ -125,7 +125,7 @@ function SubjectNode({ subject }: { subject: Subject }) {
         <div className="border border-gray-100 dark:border-zinc-800 rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 shadow-sm transition-all group mb-3">
             <div className="w-full flex items-center justify-between p-3.5 bg-white dark:bg-zinc-900 transition-colors">
                 <button
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => toggleSubjectExpansion(subject.id)}
                     className="flex-1 flex items-center gap-3 text-left pr-3 focus:outline-none"
                 >
                     <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 text-orange-500 flex items-center justify-center flex-shrink-0">
@@ -158,13 +158,13 @@ function SubjectNode({ subject }: { subject: Subject }) {
                             onEdit={handleEdit} 
                             onDelete={handleDelete} 
                             onAdd={() => {
-                                setIsOpen(true);
+                                if (!isOpen) toggleSubjectExpansion(subject.id);
                                 setIsAddingTopic(true);
                             }}
                             addLabel="Add new topic"
                         />
                     </div>
-                    <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none ml-1">
+                    <button onClick={() => toggleSubjectExpansion(subject.id)} className="focus:outline-none ml-1">
                         {isOpen ? <ChevronDown className="w-6 h-6" /> : <ChevronRight className="w-6 h-6" />}
                     </button>
                 </div>
@@ -216,8 +216,8 @@ function SubjectNode({ subject }: { subject: Subject }) {
 }
 
 function TopicNode({ topic, subjectId }: { topic: Topic, subjectId: string }) {
-    const [isOpen, setIsOpen] = useState(true);
-    const { addSubtopic, updateTopic, deleteTopic } = useAppStore();
+    const { addSubtopic, updateTopic, deleteTopic, toggleTopicExpansion } = useAppStore();
+    const isOpen = topic.isExpanded ?? true;
     const [isAddingSubtopic, setIsAddingSubtopic] = useState(false);
     const [newSubtopicTitle, setNewSubtopicTitle] = useState('');
 
@@ -257,7 +257,7 @@ function TopicNode({ topic, subjectId }: { topic: Topic, subjectId: string }) {
                     : "hover:bg-gray-50 dark:hover:bg-zinc-800/50 hover:border-gray-200 dark:hover:border-zinc-700 border border-transparent"
             )}>
                 <button
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => toggleTopicExpansion(subjectId, topic.id)}
                     className="flex-1 flex items-center gap-3 text-base font-medium hover:text-primary transition-colors text-left focus:outline-none py-1"
                 >
                     {isCompleted ? (
@@ -281,7 +281,7 @@ function TopicNode({ topic, subjectId }: { topic: Topic, subjectId: string }) {
                         onEdit={handleEdit} 
                         onDelete={handleDelete} 
                         onAdd={() => {
-                            setIsOpen(true);
+                            if (!isOpen) toggleTopicExpansion(subjectId, topic.id);
                             setIsAddingSubtopic(true);
                         }}
                         addLabel="Add new topic"
@@ -336,7 +336,7 @@ function TopicNode({ topic, subjectId }: { topic: Topic, subjectId: string }) {
 }
 
 function SubTopicItem({ subtopic, subjectId, topicId, level = 0 }: { subtopic: SubTopic, subjectId: string, topicId: string, level?: number }) {
-    const { updateSubtopicState, updateSubtopic, deleteSubtopic, addSubtopic, toggleSubtopicStar } = useAppStore();
+    const { updateSubtopicState, updateSubtopic, deleteSubtopic, addSubtopic, toggleSubtopicStar, toggleSubtopicExpansion } = useAppStore();
     const states: ProgressState[] = ['read', 'practiced', 'revised'];
     const stateOrder: ProgressState[] = ['none', 'read', 'practiced', 'revised'];
     const currentIdx = stateOrder.indexOf(subtopic.state);
@@ -428,7 +428,19 @@ function SubTopicItem({ subtopic, subjectId, topicId, level = 0 }: { subtopic: S
             </div>
 
             {/* Child elements */}
-            {(subtopic.subtopics && subtopic.subtopics.length > 0 || isAddingChild) && (
+            {(subtopic.subtopics && subtopic.subtopics.length > 0) && (
+                <div className="flex items-center gap-2 mb-2 ml-7">
+                    <button 
+                        onClick={() => toggleSubtopicExpansion(subjectId, topicId, subtopic.id)}
+                        className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-gray-400 hover:text-primary transition-colors"
+                    >
+                        {subtopic.isExpanded ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
+                        {subtopic.isExpanded ? 'Hide' : 'Show'} Sub-topics ({subtopic.subtopics.length})
+                    </button>
+                </div>
+            )}
+            
+            {(subtopic.isExpanded || isAddingChild) && (subtopic.subtopics && subtopic.subtopics.length > 0 || isAddingChild) && (
                 <div className="ml-7 pl-5 border-l-2 border-dashed border-gray-200 dark:border-zinc-700 space-y-2 mt-2 mb-3 w-full">
                     {[...(subtopic.subtopics || [])].sort((a, b) => {
                         if (a.isStarred && !b.isStarred) return -1;

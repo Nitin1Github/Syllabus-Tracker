@@ -2,12 +2,13 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { useAppStore } from '@/lib/store';
+import { MockTestCategory } from '@/lib/types';
 import ProgressBar from '@/components/ProgressBar';
 import SyllabusTracker from '@/components/SyllabusTracker';
 import { SettingsModal } from '@/components/SettingsModal';
 import ActionMenu from '@/components/ActionMenu';
-import { Loader2, BookOpen, Settings, PlusCircle, X, Download, CalendarCheck, Plus, BarChart3, User, TrendingUp, LayoutDashboard, Edit2, Timer, PieChart, Trash2, Play, Pause, RotateCcw, Check, Bell, ClipboardList } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
+import { Loader2, BookOpen, Settings, PlusCircle, X, Download, CalendarCheck, Plus, BarChart3, User, TrendingUp, LayoutDashboard, Edit2, Timer, PieChart, Trash2, Play, Pause, RotateCcw, Check, Bell, ClipboardList, Volume2, VolumeX, Filter, Target, Clock, MoreVertical } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart, ReferenceLine } from 'recharts';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -622,66 +623,91 @@ function ProfileModal({ onClose }: { onClose: () => void }) {
     const userName = useAppStore(state => state.userName);
     const userTargetExam = useAppStore(state => state.userTargetExam);
     const userContact = useAppStore(state => state.userContact);
+    const dailyStudyTarget = useAppStore(state => state.dailyStudyTarget);
     const setProfileData = useAppStore(state => state.setProfileData);
 
     const [name, setName] = useState(userName === 'Aspirant' ? '' : userName);
     const [target, setTarget] = useState(userTargetExam);
     const [contact, setContact] = useState(userContact);
+    const [studyHours, setStudyHours] = useState(dailyStudyTarget);
 
     const handleSave = () => {
-        setProfileData(name.trim(), target.trim(), contact.trim());
+        setProfileData(name.trim(), target.trim(), contact.trim(), studyHours.trim());
         onClose();
     };
 
+    const initials = (name.trim() || userName || 'A').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="bg-white dark:bg-zinc-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden p-6 animate-in zoom-in duration-200">
-                <div className="flex justify-between items-center mb-6">
-                    <h3 className="text-xl font-bold">My Profile</h3>
-                    <button onClick={onClose} className="p-1 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-full transition-colors">
-                        <X className="w-5 h-5 text-gray-500" />
+            <div className="bg-white dark:bg-zinc-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden animate-in zoom-in duration-200">
+                {/* Header with gradient banner */}
+                <div className="relative h-24 rounded-t-2xl" style={{ background: 'linear-gradient(135deg, var(--theme-primary), hsl(from var(--theme-primary) h calc(s - 10) calc(l + 15)))' }}>
+                    <button onClick={onClose} className="absolute top-3 right-3 p-1.5 bg-white/20 hover:bg-white/30 rounded-full transition-colors backdrop-blur-sm">
+                        <X className="w-4 h-4 text-white" />
                     </button>
-                </div>
-                <div className="space-y-4">
-                    <div className="space-y-1">
-                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Name</label>
-                        <input
-                            type="text"
-                            placeholder="Your Name"
-                            className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
-                            value={name}
-                            onChange={e => setName(e.target.value)}
-                        />
-                    </div>
-                    <div className="space-y-1">
-                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Target Exam</label>
-                        <input
-                            type="text"
-                            placeholder="e.g. UPSC CSE"
-                            className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
-                            value={target}
-                            onChange={e => setTarget(e.target.value)}
-                        />
-                    </div>
-                    <div className="space-y-1">
-                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Phone / Email</label>
-                        <input
-                            type="text"
-                            placeholder="Contact Info"
-                            className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
-                            value={contact}
-                            onChange={e => setContact(e.target.value)}
-                        />
+                    {/* Avatar */}
+                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2">
+                        <div className="w-20 h-20 rounded-full border-4 border-white dark:border-zinc-900 shadow-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, var(--theme-primary), hsl(from var(--theme-primary) h s calc(l - 10)))' }}>
+                            <span className="text-2xl font-black text-white tracking-wide">{initials}</span>
+                        </div>
                     </div>
                 </div>
-                <div className="mt-8">
-                    <button
-                        onClick={handleSave}
-                        className="w-full py-3.5 text-white rounded-xl font-bold shadow-lg transition-all hover:opacity-90 active:scale-[0.98]"
-                        style={{ backgroundColor: 'var(--theme-primary)', boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)' }}
-                    >
-                        Save Profile
-                    </button>
+
+                <div className="pt-14 px-6 pb-6">
+                    <div className="text-center mb-6">
+                        <h3 className="text-xl font-bold">{name.trim() || 'Aspirant'}</h3>
+                        <p className="text-xs text-gray-400 dark:text-gray-500 font-medium mt-0.5">Aspirant Dashboard</p>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="space-y-1.5">
+                            <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                <User className="w-3.5 h-3.5" /> Full Name
+                            </label>
+                            <input
+                                type="text"
+                                placeholder="Enter your full name"
+                                className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-xl p-3 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:border-[color:var(--theme-primary)] outline-none transition-all text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+                                value={name}
+                                onChange={e => setName(e.target.value)}
+                            />
+                        </div>
+                        <div className="space-y-1.5">
+                            <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                <Target className="w-3.5 h-3.5" /> Primary Target Exam
+                            </label>
+                            <input
+                                type="text"
+                                placeholder="e.g., RRB NTPC, UP Police SI"
+                                className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-xl p-3 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:border-[color:var(--theme-primary)] outline-none transition-all text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+                                value={target}
+                                onChange={e => setTarget(e.target.value)}
+                            />
+                        </div>
+                        <div className="space-y-1.5">
+                            <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                <Clock className="w-3.5 h-3.5" /> Daily Study Target (Hours)
+                            </label>
+                            <input
+                                type="text"
+                                placeholder="e.g., 6"
+                                className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-xl p-3 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:border-[color:var(--theme-primary)] outline-none transition-all text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+                                value={studyHours}
+                                onChange={e => setStudyHours(e.target.value)}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="mt-8">
+                        <button
+                            onClick={handleSave}
+                            className="w-full py-3.5 text-white rounded-xl font-bold shadow-lg transition-all hover:opacity-90 active:scale-[0.98]"
+                            style={{ backgroundColor: 'var(--theme-primary)', boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)' }}
+                        >
+                            Save Profile
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -837,6 +863,8 @@ function AddEventModal({ onClose }: { onClose: () => void }) {
 
 function FocusView() {
     const data = useAppStore(state => state.data);
+    const soundEnabled = useAppStore(state => state.soundEnabled);
+    const setSoundEnabled = useAppStore(state => state.setSoundEnabled);
     const [selectedTopic, setSelectedTopic] = useState('');
     const [totalTime, setTotalTime] = useState(25 * 60);
     const [timeLeft, setTimeLeft] = useState(25 * 60);
@@ -844,6 +872,7 @@ function FocusView() {
     const [isEditingTime, setIsEditingTime] = useState(false);
     const [inputHours, setInputHours] = useState('0');
     const [inputMinutes, setInputMinutes] = useState('25');
+    const [isCompleted, setIsCompleted] = useState(false);
 
     const allTopics = useMemo(() => {
         if (!data) return [];
@@ -862,30 +891,40 @@ function FocusView() {
         let interval: NodeJS.Timeout;
         if (isRunning && timeLeft > 0) {
             interval = setInterval(() => {
-                setTimeLeft(prev => prev - 1);
+                setTimeLeft(prev => {
+                    const next = prev - 1;
+                    if (next <= 0) {
+                        setIsRunning(false);
+                        setIsCompleted(true);
+                        if (soundEnabled && typeof window !== 'undefined') {
+                            try {
+                                const audio = new Audio('/alarm.mp3');
+                                audio.play().catch(e => console.error("Audio play failed:", e));
+                            } catch (e) { console.error("Audio creation failed:", e); }
+                        }
+                        return 0;
+                    }
+                    return next;
+                });
             }, 1000);
-        } else if (timeLeft === 0 && isRunning) {
-            setIsRunning(false);
-            if (typeof window !== 'undefined') {
-                new Audio('/alarm.mp3').play().catch(() => {});
-                alert("Pomodoro Complete! Take a break.");
-            }
         }
         return () => clearInterval(interval);
-    }, [isRunning, timeLeft]);
+    }, [isRunning, soundEnabled]);
 
     const handleStart = () => {
         if (!isRunning && timeLeft === 0 && totalTime > 0) {
             setTimeLeft(totalTime);
+            setIsCompleted(false);
         }
         setIsRunning(true);
+        setIsCompleted(false);
     };
     
     const handlePause = () => {
         setIsRunning(false);
     };
 
-    const handleReset = () => { setIsRunning(false); setTimeLeft(totalTime); };
+    const handleReset = () => { setIsRunning(false); setTimeLeft(totalTime); setIsCompleted(false); };
 
     const applyCustomTime = () => {
         const h = parseInt(inputHours) || 0;
@@ -896,6 +935,7 @@ function FocusView() {
             setTimeLeft(totalSecs);
             setIsRunning(false);
             setIsEditingTime(false);
+            setIsCompleted(false);
         }
     };
 
@@ -907,12 +947,14 @@ function FocusView() {
         setInputHours(Math.floor(minutes / 60).toString());
         setInputMinutes((minutes % 60).toString());
         setIsEditingTime(false);
+        setIsCompleted(false);
     };
 
     const formatTime = (sec: number) => {
-        const h = Math.floor(sec / 3600);
-        const m = Math.floor((sec % 3600) / 60);
-        const s = sec % 60;
+        const clamped = Math.max(0, sec);
+        const h = Math.floor(clamped / 3600);
+        const m = Math.floor((clamped % 3600) / 60);
+        const s = clamped % 60;
         const mStr = h > 0 ? m.toString().padStart(2, '0') : m.toString();
         return `${h > 0 ? h + ':' : ''}${mStr}:${s.toString().padStart(2, '0')}`;
     };
@@ -924,7 +966,22 @@ function FocusView() {
 
     return (
         <section className="animate-in fade-in duration-300 space-y-6 flex flex-col items-center">
-            <h2 className="text-2xl font-extrabold tracking-tight self-start">Focus Timer</h2>
+            <div className="flex items-center justify-between w-full">
+                <h2 className="text-2xl font-extrabold tracking-tight">Focus Timer</h2>
+                <button
+                    onClick={() => setSoundEnabled(!soundEnabled)}
+                    className={cn(
+                        "flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all border",
+                        soundEnabled
+                            ? "bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 text-gray-700 dark:text-gray-300"
+                            : "bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-900/30 text-red-500 dark:text-red-400"
+                    )}
+                    title={soundEnabled ? 'Sound On' : 'Sound Off'}
+                >
+                    {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+                    <span className="hidden sm:inline">{soundEnabled ? 'Sound On' : 'Muted'}</span>
+                </button>
+            </div>
             
             <div className="w-full max-w-sm space-y-2 mt-4">
                 <label className="text-sm font-semibold text-gray-500 uppercase tracking-widest pl-1">I am focusing on</label>
@@ -943,7 +1000,7 @@ function FocusView() {
             <div className="relative flex items-center justify-center my-6">
                 <svg width="280" height="280" className="transform -rotate-90">
                     <circle cx="140" cy="140" r={radius} stroke="currentColor" strokeWidth="12" fill="transparent" className="text-gray-100 dark:text-zinc-800" />
-                    <circle cx="140" cy="140" r={radius} stroke="currentColor" strokeWidth="12" fill="transparent" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset} className="transition-all duration-1000 ease-linear" style={{ color: 'var(--theme-primary)' }} strokeLinecap="round" />
+                    <circle cx="140" cy="140" r={radius} stroke="currentColor" strokeWidth="12" fill="transparent" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset} className="transition-all duration-1000 ease-linear" style={{ color: isCompleted ? '#10b981' : 'var(--theme-primary)' }} strokeLinecap="round" />
                 </svg>
                 <div className="absolute flex flex-col items-center justify-center w-full h-full">
                     {isEditingTime ? (
@@ -965,10 +1022,14 @@ function FocusView() {
                         </div>
                     ) : (
                         <>
-                            <span className="text-5xl font-black tabular-nums tracking-tight">{formatTime(timeLeft)}</span>
-                            <span onClick={() => setIsEditingTime(true)} className="text-sm font-semibold text-gray-400 tracking-widest uppercase mt-1 flex items-center gap-1 cursor-pointer hover:text-gray-500 dark:hover:text-gray-300 transition-colors p-2 -m-2">
-                                Remaining <Edit2 className="w-3.5 h-3.5" />
-                            </span>
+                            <span className={cn("text-5xl font-black tabular-nums tracking-tight", isCompleted && "text-emerald-500")}>{formatTime(timeLeft)}</span>
+                            {isCompleted ? (
+                                <span className="text-sm font-bold text-emerald-500 tracking-widest uppercase mt-1">Session Complete!</span>
+                            ) : (
+                                <span onClick={() => setIsEditingTime(true)} className="text-sm font-semibold text-gray-400 tracking-widest uppercase mt-1 flex items-center gap-1 cursor-pointer hover:text-gray-500 dark:hover:text-gray-300 transition-colors p-2 -m-2">
+                                    Remaining <Edit2 className="w-3.5 h-3.5" />
+                                </span>
+                            )}
                         </>
                     )}
                 </div>
@@ -1000,24 +1061,84 @@ function FocusView() {
         </section>
     );
 }
-
 function InsightsView() {
     const mockTests = useAppStore(state => state.mockTests);
     const addMockTest = useAppStore(state => state.addMockTest);
+    const mockTestCategories = useAppStore(state => state.mockTestCategories);
+    const addMockTestCategory = useAppStore(state => state.addMockTestCategory);
+    const editExamCategory = useAppStore(state => state.editExamCategory);
+    const deleteExamCategory = useAppStore(state => state.deleteExamCategory);
     const [isLogModalOpen, setIsLogModalOpen] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState<string>('all');
+    const [isAddingCategory, setIsAddingCategory] = useState(false);
+    const [newCategoryName, setNewCategoryName] = useState('');
+    const [newCategoryMaxMarks, setNewCategoryMaxMarks] = useState('');
+    const [newCategoryTargetScore, setNewCategoryTargetScore] = useState('');
+    const [isCategoryManagerOpen, setIsCategoryManagerOpen] = useState(false);
+
+    const [isKebabOpen, setIsKebabOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [editName, setEditName] = useState('');
+    const [editMaxMarks, setEditMaxMarks] = useState('');
+    const [editTargetScore, setEditTargetScore] = useState('');
+
+    const handleOpenEdit = () => {
+        if (currentCategoryData) {
+            setEditName(currentCategoryData.name);
+            setEditMaxMarks(currentCategoryData.maxMarks.toString());
+            setEditTargetScore(currentCategoryData.targetScore.toString());
+            setIsEditModalOpen(true);
+            setIsKebabOpen(false);
+        }
+    };
+
+    const handleSaveEdit = () => {
+        const max = parseFloat(editMaxMarks);
+        const target = parseFloat(editTargetScore);
+        if (editName.trim() && !isNaN(max) && !isNaN(target) && currentCategoryData) {
+            editExamCategory(currentCategoryData.name, {
+                name: editName.trim(),
+                maxMarks: max,
+                targetScore: target
+            });
+            setSelectedCategory(editName.trim());
+            setIsEditModalOpen(false);
+        }
+    };
+
+    const handleDeleteCategory = () => {
+        if (window.confirm(`Delete category "${selectedCategory}"? Tests in this category will keep their data.`)) {
+            deleteExamCategory(selectedCategory);
+            setSelectedCategory('all');
+            setIsKebabOpen(false);
+        }
+    };
+
+    const currentCategoryData = useMemo(() => {
+        return mockTestCategories.find(c => c.name === selectedCategory);
+    }, [mockTestCategories, selectedCategory]);
+
+    const filteredTests = useMemo(() => {
+        if (selectedCategory === 'all') return mockTests;
+        return mockTests.filter(t => t.examCategory === selectedCategory);
+    }, [mockTests, selectedCategory]);
 
     const chartData = useMemo(() => {
-        return [...mockTests]
+        return [...filteredTests]
             .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-            .map(t => ({
-                name: t.testName.length > 12 ? t.testName.slice(0, 12) + '…' : t.testName,
-                fullName: t.testName,
-                percentage: Math.round((t.score / t.totalMarks) * 100),
-                score: t.score,
-                totalMarks: t.totalMarks,
-                date: t.date,
-            }));
-    }, [mockTests]);
+            .map(t => {
+                const maxMarks = currentCategoryData?.maxMarks || t.totalMarks;
+                return {
+                    name: t.testName.length > 12 ? t.testName.slice(0, 12) + '\u2026' : t.testName,
+                    fullName: t.testName,
+                    percentage: Math.round((t.score / maxMarks) * 100),
+                    score: t.score,
+                    totalMarks: maxMarks,
+                    date: t.date,
+                    examCategory: t.examCategory || 'Uncategorized',
+                };
+            });
+    }, [filteredTests, currentCategoryData]);
 
     const averagePercentage = useMemo(() => {
         if (chartData.length === 0) return 0;
@@ -1043,6 +1164,22 @@ function InsightsView() {
         }
     };
 
+    const handleAddCategory = () => {
+        const max = parseFloat(newCategoryMaxMarks);
+        const target = parseFloat(newCategoryTargetScore);
+        if (newCategoryName.trim() && !isNaN(max) && !isNaN(target)) {
+            addMockTestCategory({
+                name: newCategoryName.trim(),
+                maxMarks: max,
+                targetScore: target
+            });
+            setNewCategoryName('');
+            setNewCategoryMaxMarks('');
+            setNewCategoryTargetScore('');
+            setIsAddingCategory(false);
+        }
+    };
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const CustomTooltip = ({ active, payload }: any) => {
         if (active && payload && payload.length) {
@@ -1050,6 +1187,7 @@ function InsightsView() {
             return (
                 <div className="bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-xl p-3 shadow-xl text-sm">
                     <p className="font-bold text-gray-900 dark:text-white mb-1">{d.fullName}</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-xs mb-0.5">{d.examCategory}</p>
                     <p className="text-gray-500 dark:text-gray-400 text-xs mb-1">{new Date(d.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                     <p className="font-black text-lg" style={{ color: 'var(--theme-primary)' }}>{d.percentage}%</p>
                     <p className="text-xs text-gray-400">{d.score}/{d.totalMarks} marks</p>
@@ -1072,8 +1210,51 @@ function InsightsView() {
                 </button>
             </div>
 
+            {/* Exam Category Filter */}
+            <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+                    <Filter className="w-4 h-4" />
+                    <span className="text-xs font-bold uppercase tracking-wider">Filter:</span>
+                </div>
+                <div className="flex items-center gap-2 flex-wrap flex-1">
+                    <button
+                        onClick={() => setSelectedCategory('all')}
+                        className={cn(
+                            "px-3 py-1.5 rounded-full text-xs font-bold transition-all border",
+                            selectedCategory === 'all'
+                                ? "text-white border-transparent shadow-sm"
+                                : "bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-zinc-600"
+                        )}
+                        style={selectedCategory === 'all' ? { backgroundColor: 'var(--theme-primary)' } : {}}
+                    >
+                        All Exams
+                    </button>
+                    {mockTestCategories.map(cat => (
+                        <button
+                            key={cat.name}
+                            onClick={() => setSelectedCategory(cat.name)}
+                            className={cn(
+                                "px-3 py-1.5 rounded-full text-xs font-bold transition-all border",
+                                selectedCategory === cat.name
+                                    ? "text-white border-transparent shadow-sm"
+                                    : "bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-zinc-600"
+                            )}
+                            style={selectedCategory === cat.name ? { backgroundColor: 'var(--theme-primary)' } : {}}
+                        >
+                            {cat.name}
+                        </button>
+                    ))}
+                    <button
+                        onClick={() => setIsCategoryManagerOpen(true)}
+                        className="px-2.5 py-1.5 rounded-full text-xs font-bold border-2 border-dashed border-gray-300 dark:border-zinc-700 text-gray-400 dark:text-gray-500 hover:border-gray-400 dark:hover:border-zinc-600 hover:text-gray-500 dark:hover:text-gray-400 transition-colors"
+                    >
+                        <Plus className="w-3.5 h-3.5" />
+                    </button>
+                </div>
+            </div>
+
             {/* Summary Stats Cards */}
-            {mockTests.length > 0 && (
+            {filteredTests.length > 0 && (
                 <div className="grid grid-cols-3 gap-3">
                     <div className="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-zinc-800 text-center">
                         <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-1">Average</p>
@@ -1094,14 +1275,52 @@ function InsightsView() {
 
             {/* Line Chart */}
             <div className="bg-white dark:bg-zinc-900 rounded-3xl p-5 sm:p-6 shadow-sm border border-gray-100 dark:border-zinc-800">
-                <h3 className="font-bold text-lg mb-1">Mock Test Score Trend</h3>
+                <div className="flex items-center justify-between mb-1">
+                    <h3 className="font-bold text-lg">Mock Test Score Trend</h3>
+                    <div className="flex items-center gap-2">
+                        {selectedCategory !== 'all' && (
+                            <span className="text-xs font-bold px-2.5 py-1 rounded-full text-white" style={{ backgroundColor: 'var(--theme-primary)' }}>{selectedCategory}</span>
+                        )}
+                        {selectedCategory !== 'all' && (
+                            <div className="relative">
+                                <button 
+                                    onClick={() => setIsKebabOpen(!isKebabOpen)}
+                                    className="p-1 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg transition-colors text-gray-400"
+                                >
+                                    <MoreVertical className="w-4 h-4" />
+                                </button>
+                                {isKebabOpen && (
+                                    <>
+                                        <div className="fixed inset-0 z-40" onClick={() => setIsKebabOpen(false)} />
+                                        <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in zoom-in duration-200">
+                                            <button 
+                                                onClick={handleOpenEdit}
+                                                className="w-full px-4 py-2.5 text-left text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-800 flex items-center gap-2 border-b border-gray-50 dark:border-zinc-800"
+                                            >
+                                                <Edit2 className="w-3.5 h-3.5" /> Edit Exam
+                                            </button>
+                                            <button 
+                                                onClick={handleDeleteCategory}
+                                                className="w-full px-4 py-2.5 text-left text-xs font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 flex items-center gap-2"
+                                            >
+                                                <Trash2 className="w-3.5 h-3.5" /> Delete Exam
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                </div>
                 <p className="text-xs text-gray-400 dark:text-gray-500 mb-5">Track your improvement over time</p>
                 {chartData.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-14 text-center">
                         <div className="w-16 h-16 rounded-2xl bg-gray-100 dark:bg-zinc-800 flex items-center justify-center mb-4">
                             <ClipboardList className="w-8 h-8 text-gray-300 dark:text-zinc-600" />
                         </div>
-                        <p className="text-gray-500 dark:text-gray-400 font-medium">No mock tests logged yet.</p>
+                        <p className="text-gray-500 dark:text-gray-400 font-medium">
+                            {selectedCategory !== 'all' ? `No tests logged for "${selectedCategory}" yet.` : 'No mock tests logged yet.'}
+                        </p>
                         <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">Tap "Log Test" to record your first score.</p>
                     </div>
                 ) : (
@@ -1139,6 +1358,14 @@ function InsightsView() {
                                     dot={{ r: 5, fill: 'var(--theme-primary)', stroke: '#fff', strokeWidth: 2 }}
                                     activeDot={{ r: 7, fill: 'var(--theme-primary)', stroke: '#fff', strokeWidth: 3 }}
                                 />
+                                {currentCategoryData && (
+                                    <ReferenceLine 
+                                        y={currentCategoryData.targetScore} 
+                                        stroke="#10b981" 
+                                        strokeDasharray="5 5"
+                                        label={{ value: 'Target', position: 'insideRight', fill: '#10b981', fontSize: 10, fontWeight: 'bold' }}
+                                    />
+                                )}
                             </AreaChart>
                         </ResponsiveContainer>
                     </div>
@@ -1146,10 +1373,10 @@ function InsightsView() {
             </div>
 
             {/* Recent Test Logs */}
-            {mockTests.length > 0 && (
+            {filteredTests.length > 0 && (
                 <div className="space-y-3">
                     <h3 className="font-bold text-lg px-1">Recent Test Logs</h3>
-                    {[...mockTests].reverse().map((test) => {
+                    {[...filteredTests].reverse().map((test) => {
                         const pct = Math.round((test.score / test.totalMarks) * 100);
                         return (
                             <div key={test.id} className="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-zinc-800 flex items-center justify-between gap-4 group">
@@ -1175,6 +1402,12 @@ function InsightsView() {
                                             {new Date(test.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                                             <span className="ml-2 text-gray-300 dark:text-zinc-600">•</span>
                                             <span className="ml-2">{test.score}/{test.totalMarks}</span>
+                                            {test.examCategory && (
+                                                <>
+                                                    <span className="ml-2 text-gray-300 dark:text-zinc-600">•</span>
+                                                    <span className="ml-2 font-semibold" style={{ color: 'var(--theme-primary)' }}>{test.examCategory}</span>
+                                                </>
+                                            )}
                                         </p>
                                     </div>
                                 </div>
@@ -1192,6 +1425,7 @@ function InsightsView() {
 
             {isLogModalOpen && (
                 <LogMockTestModal
+                    categories={mockTestCategories}
                     onClose={() => setIsLogModalOpen(false)}
                     onSave={(test) => {
                         addMockTest(test);
@@ -1199,21 +1433,198 @@ function InsightsView() {
                     }}
                 />
             )}
+
+            {/* Category Manager Modal */}
+            {isCategoryManagerOpen && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white dark:bg-zinc-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden p-6 animate-in zoom-in duration-200">
+                        <div className="flex justify-between items-center mb-6">
+                            <h3 className="text-xl font-bold">Exam Categories</h3>
+                            <button onClick={() => setIsCategoryManagerOpen(false)} className="p-1 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-full transition-colors">
+                                <X className="w-5 h-5 text-gray-500" />
+                            </button>
+                        </div>
+
+                        <div className="space-y-2 max-h-[40vh] overflow-y-auto mb-4">
+                            {mockTestCategories.length === 0 && (
+                                <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-4">No exam categories added yet.</p>
+                            )}
+                            {mockTestCategories.map(cat => (
+                                <div key={cat.name} className="flex flex-col p-3 rounded-xl bg-gray-50 dark:bg-zinc-800/50 border border-gray-100 dark:border-zinc-800">
+                                    <div className="flex items-center justify-between">
+                                        <span className="font-bold text-sm">{cat.name}</span>
+                                        <button
+                                            onClick={() => {
+                                                if (window.confirm(`Delete category "${cat.name}"? Tests in this category will keep their data.`)) {
+                                                    deleteExamCategory(cat.name);
+                                                    if (selectedCategory === cat.name) setSelectedCategory('all');
+                                                }
+                                            }}
+                                            className="p-1.5 text-gray-300 hover:text-red-500 dark:text-zinc-600 dark:hover:text-red-400 transition-colors rounded-lg hover:bg-red-50 dark:hover:bg-red-950/20"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
+                                    </div>
+                                    <div className="flex gap-4 mt-2">
+                                        <div className="flex flex-col">
+                                            <span className="text-[9px] uppercase font-bold text-gray-400">Max Marks</span>
+                                            <span className="text-xs font-medium">{cat.maxMarks}</span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[9px] uppercase font-bold text-gray-400">Target %</span>
+                                            <span className="text-xs font-medium text-amber-600">{cat.targetScore}%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {isAddingCategory ? (
+                            <div className="space-y-3">
+                                <div className="space-y-1">
+                                    <label className="text-[10px] font-bold uppercase text-gray-500">Exam Name</label>
+                                    <input
+                                        autoFocus
+                                        type="text"
+                                        placeholder="e.g. RRB NTPC"
+                                        className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white"
+                                        value={newCategoryName}
+                                        onChange={e => setNewCategoryName(e.target.value)}
+                                    />
+                                </div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-bold uppercase text-gray-500">Max Marks</label>
+                                        <input
+                                            type="number"
+                                            placeholder="200"
+                                            className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white"
+                                            value={newCategoryMaxMarks}
+                                            onChange={e => setNewCategoryMaxMarks(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-bold uppercase text-gray-500">Target %</label>
+                                        <input
+                                            type="number"
+                                            placeholder="75"
+                                            className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white"
+                                            value={newCategoryTargetScore}
+                                            onChange={e => setNewCategoryTargetScore(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex gap-2 pt-2">
+                                    <button
+                                        onClick={() => setIsAddingCategory(false)}
+                                        className="flex-1 py-2.5 rounded-lg font-bold text-sm bg-gray-100 dark:bg-zinc-800 text-gray-500"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={handleAddCategory}
+                                        className="flex-1 py-2.5 text-white rounded-lg font-bold text-sm transition-all hover:opacity-90"
+                                        style={{ backgroundColor: 'var(--theme-primary)' }}
+                                    >
+                                        Add Exam
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <button
+                                onClick={() => setIsAddingCategory(true)}
+                                className="w-full py-3 border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded-xl text-sm font-bold text-gray-400 dark:text-gray-500 hover:border-gray-400 dark:hover:border-zinc-600 hover:text-gray-500 dark:hover:text-gray-400 transition-colors flex items-center justify-center gap-1.5"
+                            >
+                                <Plus className="w-4 h-4" /> Add New Exam Category
+                            </button>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            {/* Edit Exam Modal */}
+            {isEditModalOpen && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white dark:bg-zinc-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden p-6 animate-in zoom-in duration-200">
+                        <div className="flex justify-between items-center mb-6">
+                            <h3 className="text-xl font-bold">Edit Exam Category</h3>
+                            <button onClick={() => setIsEditModalOpen(false)} className="p-1 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-full transition-colors">
+                                <X className="w-5 h-5 text-gray-500" />
+                            </button>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-bold uppercase text-gray-500">Exam Name</label>
+                                <input
+                                    type="text"
+                                    className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white"
+                                    value={editName}
+                                    onChange={e => setEditName(e.target.value)}
+                                />
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                <div className="space-y-1">
+                                    <label className="text-[10px] font-bold uppercase text-gray-500">Max Marks</label>
+                                    <input
+                                        type="number"
+                                        className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white"
+                                        value={editMaxMarks}
+                                        onChange={e => setEditMaxMarks(e.target.value)}
+                                    />
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="text-[10px] font-bold uppercase text-gray-500">Target %</label>
+                                    <input
+                                        type="number"
+                                        className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white"
+                                        value={editTargetScore}
+                                        onChange={e => setEditTargetScore(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex gap-2 pt-2">
+                                <button
+                                    onClick={() => setIsEditModalOpen(false)}
+                                    className="flex-1 py-3 rounded-xl font-bold text-sm bg-gray-100 dark:bg-zinc-800 text-gray-500"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleSaveEdit}
+                                    className="flex-1 py-3 text-white rounded-xl font-bold text-sm transition-all hover:opacity-90 shadow-lg"
+                                    style={{ backgroundColor: 'var(--theme-primary)' }}
+                                >
+                                    Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     );
 }
 
-function LogMockTestModal({ onClose, onSave }: { onClose: () => void, onSave: (test: { testName: string, score: number, totalMarks: number, date: string }) => void }) {
+function LogMockTestModal({ onClose, onSave, categories }: { onClose: () => void, onSave: (test: { testName: string, score: number, totalMarks: number, date: string, examCategory?: string }) => void, categories: MockTestCategory[] }) {
     const [testName, setTestName] = useState('');
     const [score, setScore] = useState('');
     const [totalMarks, setTotalMarks] = useState('');
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+    const [examCategory, setExamCategory] = useState('');
+
+    useEffect(() => {
+        if (examCategory) {
+            const cat = categories.find(c => c.name === examCategory);
+            if (cat) setTotalMarks(cat.maxMarks.toString());
+        }
+    }, [examCategory, categories]);
 
     const handleSave = () => {
         const s = parseFloat(score);
         const t = parseFloat(totalMarks);
         if (testName.trim() && !isNaN(s) && !isNaN(t) && t > 0 && s >= 0 && s <= t && date) {
-            onSave({ testName: testName.trim(), score: s, totalMarks: t, date });
+            onSave({ testName: testName.trim(), score: s, totalMarks: t, date, examCategory: examCategory || undefined });
         }
     };
 
@@ -1228,6 +1639,21 @@ function LogMockTestModal({ onClose, onSave }: { onClose: () => void, onSave: (t
                 </div>
 
                 <div className="space-y-4">
+                    {categories.length > 0 && (
+                        <div className="space-y-1">
+                            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Exam Category</label>
+                            <select
+                                className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white"
+                                value={examCategory}
+                                onChange={e => setExamCategory(e.target.value)}
+                            >
+                                <option value="">No category (general)</option>
+                                {categories.map(cat => (
+                                    <option key={cat.name} value={cat.name}>{cat.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
                     <div className="space-y-1">
                         <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Test Name</label>
                         <input

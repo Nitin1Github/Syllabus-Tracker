@@ -12,34 +12,21 @@ const themeColors: Record<string, string> = {
 
 export function ThemeEngine() {
     const themeColor = useAppStore(state => state.themeColor);
-    const themeImage = useAppStore(state => state.themeImage);
 
     useEffect(() => {
         const colorHsl = themeColors[themeColor] || themeColors['indigo'];
         document.documentElement.style.setProperty('--theme-primary', `hsl(${colorHsl})`);
     }, [themeColor]);
 
+    // Restore eye comfort mode from localStorage on mount
     useEffect(() => {
-        if (themeImage) {
-            document.documentElement.style.setProperty('background-image', `url(${themeImage})`);
-            document.documentElement.style.setProperty('background-size', 'cover');
-            document.documentElement.style.setProperty('background-position', 'center');
-            document.documentElement.style.setProperty('background-attachment', 'fixed');
-            // Adding a dark underlay globally forces the dark mode colors to look good over the image
-            document.documentElement.style.setProperty('background-color', '#000000');
-        } else {
-            document.documentElement.style.removeProperty('background-image');
-            document.documentElement.style.removeProperty('background-size');
-            document.documentElement.style.removeProperty('background-position');
-            document.documentElement.style.removeProperty('background-attachment');
-            document.documentElement.style.removeProperty('background-color');
+        if (typeof window !== 'undefined') {
+            const eyeComfort = localStorage.getItem('eyeComfort');
+            if (eyeComfort === 'true') {
+                document.documentElement.classList.add('eye-comfort');
+            }
         }
-    }, [themeImage]);
+    }, []);
 
-    if (!themeImage) return null;
-
-    // Fixed overlay background to maintain contrast over the image globally in the app
-    return (
-        <div className="fixed inset-0 bg-white/60 dark:bg-black/80 z-[-1] pointer-events-none transition-colors duration-300 backdrop-blur-[2px]" />
-    );
+    return null;
 }

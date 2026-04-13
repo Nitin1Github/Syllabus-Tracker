@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AppData, ProgressState, Subject, Topic, SubTopic, ExamData, AppEvent, MockTest } from '@/lib/types';
+import { AppData, ProgressState, Subject, Topic, SubTopic, ExamData, AppEvent, MockTest, MockTestCategory } from '@/lib/types';
 
 interface AppState {
     data: AppData | null;
@@ -10,19 +10,30 @@ interface AppState {
     userName: string;
     userTargetExam: string;
     userContact: string;
+    dailyStudyTarget: string;
     events: AppEvent[];
     mockTests: MockTest[];
+    mockTestCategories: MockTestCategory[];
+    soundEnabled: boolean;
 
     addEvent: (event: Omit<AppEvent, 'id'>) => void;
     deleteEvent: (eventId: string) => void;
     toggleEventReminder: (eventId: string, enabled: boolean, scheduledId?: number) => void;
 
     addMockTest: (test: Omit<MockTest, 'id'>) => void;
+    addMockTestCategory: (category: MockTestCategory) => void;
+    editExamCategory: (oldName: string, updatedCategory: MockTestCategory) => void;
+    deleteExamCategory: (name: string) => void;
+    setSoundEnabled: (enabled: boolean) => void;
+
+    toggleSubjectExpansion: (subjectId: string) => void;
+    toggleTopicExpansion: (subjectId: string, topicId: string) => void;
+    toggleSubtopicExpansion: (subjectId: string, topicId: string, subTopicId: string) => void;
 
     setThemeColor: (color: string) => void;
     setThemeImage: (image: string) => void;
     setUserName: (name: string) => void;
-    setProfileData: (name: string, targetExam: string, contact: string) => void;
+    setProfileData: (name: string, targetExam: string, contact: string, dailyStudyTarget: string) => void;
     setData: (data: AppData) => void;
     fetchData: () => Promise<void>;
 
@@ -61,8 +72,11 @@ export const useAppStore = create<AppState>((set, get) => ({
     userName: 'Aspirant',
     userTargetExam: '',
     userContact: '',
+    dailyStudyTarget: '',
     events: [],
     mockTests: [],
+    mockTestCategories: [],
+    soundEnabled: true,
 
     setThemeColor: (color) => {
         set({ themeColor: color });
@@ -79,12 +93,13 @@ export const useAppStore = create<AppState>((set, get) => ({
         if (typeof window !== 'undefined') localStorage.setItem('userName', name);
     },
 
-    setProfileData: (name: string, targetExam: string, contact: string) => {
-        set({ userName: name || 'Aspirant', userTargetExam: targetExam, userContact: contact });
+    setProfileData: (name: string, targetExam: string, contact: string, dailyStudyTarget: string) => {
+        set({ userName: name || 'Aspirant', userTargetExam: targetExam, userContact: contact, dailyStudyTarget });
         if (typeof window !== 'undefined') {
             localStorage.setItem('userName', name || 'Aspirant');
             localStorage.setItem('userTargetExam', targetExam);
             localStorage.setItem('userContact', contact);
+            localStorage.setItem('dailyStudyTarget', dailyStudyTarget);
         }
     },
 
@@ -100,16 +115,22 @@ export const useAppStore = create<AppState>((set, get) => ({
             const savedName = localStorage.getItem('userName');
             const savedTarget = localStorage.getItem('userTargetExam');
             const savedContact = localStorage.getItem('userContact');
+            const savedDailyTarget = localStorage.getItem('dailyStudyTarget');
             const savedEvents = localStorage.getItem('events');
             const savedMockTests = localStorage.getItem('mockTests');
+            const savedCategories = localStorage.getItem('mockTestCategories');
+            const savedSound = localStorage.getItem('soundEnabled');
             set({
                 themeColor: savedColor || 'indigo',
                 themeImage: savedImage || '',
                 userName: savedName || 'Aspirant',
                 userTargetExam: savedTarget || '',
                 userContact: savedContact || '',
+                dailyStudyTarget: savedDailyTarget || '',
                 events: savedEvents ? JSON.parse(savedEvents) : [],
-                mockTests: savedMockTests ? JSON.parse(savedMockTests) : []
+                mockTests: savedMockTests ? JSON.parse(savedMockTests) : [],
+                mockTestCategories: savedCategories ? JSON.parse(savedCategories) : [],
+                soundEnabled: savedSound !== null ? JSON.parse(savedSound) : true
             });
             // Note: data loading is shifted to page.tsx using useEffect
         } else {
@@ -522,5 +543,102 @@ export const useAppStore = create<AppState>((set, get) => ({
         const newMockTests = [...get().mockTests, newTest];
         set({ mockTests: newMockTests });
         if (typeof window !== 'undefined') localStorage.setItem('mockTests', JSON.stringify(newMockTests));
+    },
+
+    addMockTestCategory: (category) => {
+        const categories = get().mockTestCategories;
+        if (!categories.find(c => c.name === category.name)) {
+            const updated = [...categories, category];
+            set({ mockTestCategories: updated });
+            if (typeof window !== 'undefined') localStorage.setItem('mockTestCategories', JSON.stringify(updated));
+        }
+    },
+
+    deleteExamCategory: (name) => {
+        const updated = get().mockTestCategories.filter(c => c.name !== name);
+        set({ mockTestCategories: updated });
+        if (typeof window !== 'undefined') localStorage.setItem('mockTestCategories', JSON.stringify(updated));
+    },
+
+    editExamCategory: (oldName, updatedCategory) => {
+        const categories = get().mockTestCategories;
+        const updatedCategories = categories.map(c => c.name === oldName ? updatedCategory : c);
+        
+        let updatedTests = get().mockTests;
+        if (oldName !== updatedCategory.name) {
+            updatedTests = updatedTests.map(t => 
+                t.examCategory === oldName ? { ...t, examCategory: updatedCategory.name } : t
+            );
+        }
+        
+        set({ mockTestCategories: updatedCategories, mockTests: updatedTests });
+        
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('mockTestCategories', JSON.stringify(updatedCategories));
+            if (oldName !== updatedCategory.name) {
+                localStorage.setItem('mockTests', JSON.stringify(updatedTests));
+            }
+        }
+    },
+
+    toggleSubjectExpansion: (subjectId) => {
+        const { data, activeExamId } = get();
+        if (!data || !activeExamId) return;
+        const updatedExams = data.exams.map(exam => {
+            if (exam.id !== activeExamId) return exam;
+            return {
+                ...exam,
+                syllabus: exam.syllabus.map(s => s.id === subjectId ? { ...s, isExpanded: !s.isExpanded } : s)
+            };
+        });
+        set({ data: { ...data, exams: updatedExams } });
+    },
+
+    toggleTopicExpansion: (subjectId, topicId) => {
+        const { data, activeExamId } = get();
+        if (!data || !activeExamId) return;
+        const updatedExams = data.exams.map(exam => {
+            if (exam.id !== activeExamId) return exam;
+            return {
+                ...exam,
+                syllabus: exam.syllabus.map(s => {
+                    if (s.id !== subjectId) return s;
+                    return { ...s, topics: s.topics.map(t => t.id === topicId ? { ...t, isExpanded: !t.isExpanded } : t) };
+                })
+            };
+        });
+        set({ data: { ...data, exams: updatedExams } });
+    },
+
+    toggleSubtopicExpansion: (subjectId, topicId, subTopicId) => {
+        const { data, activeExamId } = get();
+        if (!data || !activeExamId) return;
+        const updatedExams = data.exams.map(exam => {
+            if (exam.id !== activeExamId) return exam;
+            return {
+                ...exam,
+                syllabus: exam.syllabus.map(s => {
+                    if (s.id !== subjectId) return s;
+                    return {
+                        ...s,
+                        topics: s.topics.map(t => {
+                            if (t.id !== topicId) return t;
+                            const mapRecursive = (subs: SubTopic[]): SubTopic[] => subs.map(sub => {
+                                if (sub.id === subTopicId) return { ...sub, isExpanded: !sub.isExpanded };
+                                if (sub.subtopics) return { ...sub, subtopics: mapRecursive(sub.subtopics) };
+                                return sub;
+                            });
+                            return { ...t, subtopics: mapRecursive(t.subtopics) };
+                        })
+                    };
+                })
+            };
+        });
+        set({ data: { ...data, exams: updatedExams } });
+    },
+
+    setSoundEnabled: (enabled) => {
+        set({ soundEnabled: enabled });
+        if (typeof window !== 'undefined') localStorage.setItem('soundEnabled', JSON.stringify(enabled));
     }
 }));

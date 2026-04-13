@@ -16,6 +16,44 @@
   /* zinc-100 */
 }
 
+/* Eye Comfort Mode — warm sepia tint for night study */
+.eye-comfort {
+  --background: #fef3e2;
+  --foreground: #422006;
+}
+
+.eye-comfort body {
+  background-color: #fef3e2 !important;
+  color: #422006 !important;
+}
+
+/* Warm tint for cards and surfaces in eye comfort mode */
+.eye-comfort .bg-white {
+  background-color: #fefce8 !important;
+}
+
+.eye-comfort .bg-gray-50 {
+  background-color: #fef9ef !important;
+}
+
+.eye-comfort .bg-gray-100 {
+  background-color: #fef3c7 !important;
+}
+
+.eye-comfort .border-gray-100,
+.eye-comfort .border-gray-200 {
+  border-color: #fde68a !important;
+}
+
+.eye-comfort .text-gray-900 {
+  color: #451a03 !important;
+}
+
+.eye-comfort .text-gray-500,
+.eye-comfort .text-gray-400 {
+  color: #92400e !important;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

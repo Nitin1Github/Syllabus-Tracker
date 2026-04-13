@@ -5,19 +5,28 @@ export interface SubTopic {
   title: string;
   state: ProgressState;
   isStarred?: boolean;
+  isExpanded?: boolean;
   subtopics?: SubTopic[];
 }
 
 export interface Topic {
   id: string;
   title: string;
+  isExpanded?: boolean;
   subtopics: SubTopic[];
 }
 
 export interface Subject {
   id: string;
   title: string;
+  isExpanded?: boolean;
   topics: Topic[];
+}
+
+export interface MockTestCategory {
+  name: string;
+  maxMarks: number;
+  targetScore: number;
 }
 
 export interface TargetExam {
@@ -52,4 +61,5 @@ export interface MockTest {
   score: number;
   totalMarks: number;
   date: string;
+  examCategory?: string;
 }

@@ -6,7 +6,8 @@ import ProgressBar from '@/components/ProgressBar';
 import SyllabusTracker from '@/components/SyllabusTracker';
 import { SettingsModal } from '@/components/SettingsModal';
 import ActionMenu from '@/components/ActionMenu';
-import { Loader2, BookOpen, Settings, PlusCircle, X, Download, CalendarCheck, Plus, BarChart3, User, TrendingUp, LayoutDashboard, Edit2 } from 'lucide-react';
+import { Loader2, BookOpen, Settings, PlusCircle, X, Download, CalendarCheck, Plus, BarChart3, User, TrendingUp, LayoutDashboard, Edit2, Timer, PieChart, Trash2, Play, Pause, RotateCcw, Check, Bell } from 'lucide-react';
+import { LocalNotifications } from '@capacitor/local-notifications';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { differenceInDays, parseISO } from 'date-fns';
@@ -19,19 +20,11 @@ function cn(...inputs: ClassValue[]) {
 }
 
 // Exam Mini Card
-function ExamMiniCard({ exam, isActive, onClick, onImportSyllabus }: { exam: ExamData, isActive: boolean, onClick: () => void, onImportSyllabus: () => void }) {
-    const updateExam = useAppStore(state => state.updateExam);
+function ExamMiniCard({ exam, isActive, onClick, onImportSyllabus, onEditOpen }: { exam: ExamData, isActive: boolean, onClick: () => void, onImportSyllabus: () => void, onEditOpen: () => void }) {
     const deleteExam = useAppStore(state => state.deleteExam);
 
     const handleEdit = () => {
-        const newName = window.prompt("Enter new exam name:", exam.targetExam.name);
-        if (newName && newName.trim()) {
-            const rawDate = new Date(exam.targetExam.date).toISOString().split('T')[0];
-            const newDate = window.prompt("Enter new target date (YYYY-MM-DD):", rawDate);
-            if (newDate) {
-                updateExam(exam.id, newName.trim(), new Date(newDate).toISOString());
-            }
-        }
+        onEditOpen();
     };
 
     const handleDelete = () => {
@@ -130,12 +123,15 @@ export default function Home() {
         return data.exams.find(e => e.id === activeExamId) || null;
     }, [data, activeExamId]);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+    const [editingExamId, setEditingExamId] = useState<string | null>(null);
     const [isExamModalOpen, setIsExamModalOpen] = useState(false);
     const [isLibraryModalOpen, setIsLibraryModalOpen] = useState(false);
     const [importTargetExamId, setImportTargetExamId] = useState<string | null>(null);
     const [isEditingName, setIsEditingName] = useState(false);
     const [tempName, setTempName] = useState('');
     const [isListView, setIsListView] = useState(false);
+    const [activeTab, setActiveTab] = useState<'dashboard'|'upcoming'|'focus'|'insights'>('dashboard');
 
     const setData = useAppStore(state => state.setData);
 
@@ -190,7 +186,7 @@ export default function Home() {
                         >
                             <Settings className="w-4 h-4" />
                         </button>
-                        <div className="w-8 h-8 rounded-full border-2 border-orange-200 dark:border-orange-900/50 bg-orange-100 dark:bg-orange-900/20 flex items-center justify-center overflow-hidden cursor-pointer hover:opacity-90 transition-opacity">
+                        <div onClick={() => setIsProfileModalOpen(true)} className="w-8 h-8 rounded-full border-2 border-orange-200 dark:border-orange-900/50 bg-orange-100 dark:bg-orange-900/20 flex items-center justify-center overflow-hidden cursor-pointer hover:opacity-90 transition-opacity">
                             <User className="w-4 h-4 text-orange-400" />
                         </div>
                     </div>
@@ -198,8 +194,9 @@ export default function Home() {
             </header>
 
             <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4 space-y-6 relative z-10">
-
-                {/* Master Dashboard / Hero Carousel section */}
+                {activeTab === 'dashboard' && (
+                    <>
+                        {/* Master Dashboard / Hero Carousel section */}
                 <section>
                     <div className="mb-4 group inline-flex items-center gap-2">
                         {isEditingName ? (
@@ -288,8 +285,12 @@ export default function Home() {
                                             </div>
                                             <div className="relative z-20">
                                                 <ActionMenu 
-                                                    onEdit={() => {}} 
-                                                    onDelete={() => {}} 
+                                                    onEdit={() => setEditingExamId(exam.id)} 
+                                                    onDelete={() => {
+                                                        if (window.confirm(`Are you sure you want to delete "${exam.targetExam.name}"?`)) {
+                                                            useAppStore.getState().deleteExam(exam.id);
+                                                        }
+                                                    }} 
                                                     onImport={() => {
                                                         setImportTargetExamId(exam.id);
                                                         setIsLibraryModalOpen(true);
@@ -313,6 +314,7 @@ export default function Home() {
                                             setImportTargetExamId(exam.id);
                                             setIsLibraryModalOpen(true);
                                         }}
+                                        onEditOpen={() => setEditingExamId(exam.id)}
                                     />
                                 </div>
                             ))}
@@ -351,25 +353,32 @@ export default function Home() {
                         </div>
                     ) : null
                 )}
+                    </>
+                )}
+
+                {activeTab === 'upcoming' && <UpcomingView />}
+                {activeTab === 'focus' && <FocusView />}
+                {activeTab === 'insights' && <InsightsView />}
+
             </main>
 
             {/* Bottom Mobile Navigation */}
             <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-zinc-900 border-t border-gray-100 dark:border-zinc-800 z-50 flex justify-around items-center px-2 py-3 sm:hidden pb-safe">
-                <button className="flex flex-col items-center gap-1" style={{ color: 'var(--theme-primary)' }}>
+                <button onClick={() => setActiveTab('dashboard')} className={cn("flex flex-col items-center gap-1 transition-colors", activeTab === 'dashboard' ? "text-[color:var(--theme-primary)]" : "text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300")}>
                     <LayoutDashboard className="w-6 h-6" />
-                    <span className="text-[10px] font-bold">Dashboard</span>
+                    <span className={cn("text-[10px]", activeTab === 'dashboard' ? "font-bold" : "font-medium")}>Dashboard</span>
                 </button>
-                <button className="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                <button onClick={() => setActiveTab('upcoming')} className={cn("flex flex-col items-center gap-1 transition-colors", activeTab === 'upcoming' ? "text-[color:var(--theme-primary)]" : "text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300")}>
                     <CalendarCheck className="w-6 h-6" />
-                    <span className="text-[10px] font-medium">Upcoming</span>
+                    <span className={cn("text-[10px]", activeTab === 'upcoming' ? "font-bold" : "font-medium")}>Upcoming</span>
                 </button>
-                <button className="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-                    <BarChart3 className="w-6 h-6" />
-                    <span className="text-[10px] font-medium">Insights</span>
+                <button onClick={() => setActiveTab('focus')} className={cn("flex flex-col items-center gap-1 transition-colors", activeTab === 'focus' ? "text-[color:var(--theme-primary)]" : "text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300")}>
+                    <Timer className="w-6 h-6" />
+                    <span className={cn("text-[10px]", activeTab === 'focus' ? "font-bold" : "font-medium")}>Focus</span>
                 </button>
-                <button className="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-                    <User className="w-6 h-6" />
-                    <span className="text-[10px] font-medium">Profile</span>
+                <button onClick={() => setActiveTab('insights')} className={cn("flex flex-col items-center gap-1 transition-colors", activeTab === 'insights' ? "text-[color:var(--theme-primary)]" : "text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300")}>
+                    <PieChart className="w-6 h-6" />
+                    <span className={cn("text-[10px]", activeTab === 'insights' ? "font-bold" : "font-medium")}>Insights</span>
                 </button>
             </nav>
 
@@ -405,6 +414,18 @@ export default function Home() {
                         addExams(exams);
                         setIsExamModalOpen(false);
                     }}
+                />
+            )}
+
+            {isProfileModalOpen && <ProfileModal onClose={() => setIsProfileModalOpen(false)} />}
+            {editingExamId && (
+                <EditExamModal 
+                    exam={data.exams.find(e => e.id === editingExamId)!} 
+                    onClose={() => setEditingExamId(null)} 
+                    onSave={(name, date) => {
+                        useAppStore.getState().updateExam(editingExamId, name, date);
+                        setEditingExamId(null);
+                    }} 
                 />
             )}
         </div>
@@ -454,7 +475,7 @@ function BulkExamModal({ onClose, onSave }: { onClose: () => void, onSave: (exam
                                     type="text"
                                     autoFocus={index === rows.length - 1}
                                     placeholder="e.g. UPSC Prelims"
-                                    className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800/50 focus:bg-white focus:ring-0 focus:border-primary outline-none transition-colors"
+                                    className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
                                     value={row.name}
                                     onChange={e => updateRow(row.id, 'name', e.target.value)}
                                 />
@@ -463,7 +484,7 @@ function BulkExamModal({ onClose, onSave }: { onClose: () => void, onSave: (exam
                                 <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Target Date</label>
                                 <input
                                     type="date"
-                                    className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800/50 focus:bg-white focus:ring-0 focus:border-primary outline-none transition-colors"
+                                    className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
                                     value={row.date}
                                     onChange={e => updateRow(row.id, 'date', e.target.value)}
                                 />
@@ -538,5 +559,480 @@ function SyllabusLibraryModal({ onClose, onImport }: { onClose: () => void, onIm
                 </div>
             </div>
         </div>
+    );
+}
+
+function EditExamModal({ exam, onClose, onSave }: { exam: ExamData, onClose: () => void, onSave: (name: string, date: string) => void }) {
+    const [name, setName] = useState(exam.targetExam.name);
+    const [date, setDate] = useState(new Date(exam.targetExam.date).toISOString().split('T')[0]);
+
+    const handleSave = () => {
+        if (name.trim() && date) {
+            onSave(name.trim(), new Date(date).toISOString());
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+            <div className="bg-white dark:bg-zinc-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden p-6 animate-in zoom-in duration-200">
+                <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-xl font-bold">Edit Exam</h3>
+                    <button onClick={onClose} className="p-1 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-full transition-colors">
+                        <X className="w-5 h-5 text-gray-500" />
+                    </button>
+                </div>
+                <div className="space-y-4">
+                    <div className="space-y-1">
+                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Exam Name</label>
+                        <input
+                            type="text"
+                            autoFocus
+                            placeholder="e.g. UPSC Prelims"
+                            className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                        />
+                    </div>
+                    <div className="space-y-1">
+                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Target Date</label>
+                        <input
+                            type="date"
+                            className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+                            value={date}
+                            onChange={e => setDate(e.target.value)}
+                        />
+                    </div>
+                </div>
+                <div className="mt-8">
+                    <button
+                        onClick={handleSave}
+                        className="w-full py-3.5 text-white rounded-xl font-bold shadow-lg transition-all hover:opacity-90 active:scale-[0.98]"
+                        style={{ backgroundColor: 'var(--theme-primary)', boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)' }}
+                    >
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function ProfileModal({ onClose }: { onClose: () => void }) {
+    const userName = useAppStore(state => state.userName);
+    const userTargetExam = useAppStore(state => state.userTargetExam);
+    const userContact = useAppStore(state => state.userContact);
+    const setProfileData = useAppStore(state => state.setProfileData);
+
+    const [name, setName] = useState(userName === 'Aspirant' ? '' : userName);
+    const [target, setTarget] = useState(userTargetExam);
+    const [contact, setContact] = useState(userContact);
+
+    const handleSave = () => {
+        setProfileData(name.trim(), target.trim(), contact.trim());
+        onClose();
+    };
+
+    return (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+            <div className="bg-white dark:bg-zinc-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden p-6 animate-in zoom-in duration-200">
+                <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-xl font-bold">My Profile</h3>
+                    <button onClick={onClose} className="p-1 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-full transition-colors">
+                        <X className="w-5 h-5 text-gray-500" />
+                    </button>
+                </div>
+                <div className="space-y-4">
+                    <div className="space-y-1">
+                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Name</label>
+                        <input
+                            type="text"
+                            placeholder="Your Name"
+                            className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                        />
+                    </div>
+                    <div className="space-y-1">
+                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Target Exam</label>
+                        <input
+                            type="text"
+                            placeholder="e.g. UPSC CSE"
+                            className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+                            value={target}
+                            onChange={e => setTarget(e.target.value)}
+                        />
+                    </div>
+                    <div className="space-y-1">
+                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Phone / Email</label>
+                        <input
+                            type="text"
+                            placeholder="Contact Info"
+                            className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 focus:bg-white dark:focus:bg-zinc-800 focus:ring-0 focus:border-primary outline-none transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+                            value={contact}
+                            onChange={e => setContact(e.target.value)}
+                        />
+                    </div>
+                </div>
+                <div className="mt-8">
+                    <button
+                        onClick={handleSave}
+                        className="w-full py-3.5 text-white rounded-xl font-bold shadow-lg transition-all hover:opacity-90 active:scale-[0.98]"
+                        style={{ backgroundColor: 'var(--theme-primary)', boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)' }}
+                    >
+                        Save Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function UpcomingView() {
+    const events = useAppStore(state => state.events || []);
+    const deleteEvent = useAppStore(state => state.deleteEvent);
+    const toggleEventReminder = useAppStore(state => state.toggleEventReminder);
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+    const handleToggle = async (eventId: string, currentState: boolean) => {
+        if (!currentState) {
+            // Turning ON Reminder
+            try {
+                let perm = await LocalNotifications.checkPermissions();
+                if (perm.display !== 'granted') {
+                    perm = await LocalNotifications.requestPermissions();
+                }
+                if (perm.display !== 'granted') {
+                    alert("Permissions needed to set reminders.");
+                    return;
+                }
+
+                const event = events.find(e => e.id === eventId);
+                if (event) {
+                    const scheduledId = Math.floor(Math.random() * 100000);
+                    const eventDate = new Date(`${event.date}T${event.time}`);
+                    if (eventDate > new Date()) {
+                        await LocalNotifications.schedule({
+                            notifications: [{
+                                id: scheduledId,
+                                title: "Upcoming Event Reminder",
+                                body: `It's almost time for: ${event.title}`,
+                                schedule: { at: eventDate }
+                            }]
+                        });
+                        toggleEventReminder(eventId, true, scheduledId);
+                    } else {
+                        alert("Cannot set a reminder for a past time.");
+                    }
+                }
+            } catch (e) {
+                console.error("Local notifications failed", e);
+                // Fallback for web without capacitor
+                toggleEventReminder(eventId, true, Date.now());
+            }
+        } else {
+            // Turning OFF Reminder
+            try {
+                const event = events.find(e => e.id === eventId);
+                if (event && event.notificationId) {
+                    await LocalNotifications.cancel({ notifications: [{ id: event.notificationId }] });
+                }
+            } catch (e) { console.error(e) }
+            toggleEventReminder(eventId, false, undefined);
+        }
+    };
+
+    return (
+        <section className="animate-in fade-in duration-300 space-y-6">
+            <div className="flex items-center justify-between mb-3 mt-1">
+                <h2 className="text-2xl font-extrabold tracking-tight">Upcoming Events</h2>
+                <button
+                    onClick={() => setIsAddModalOpen(true)}
+                    className="flex items-center gap-1.5 text-sm font-medium text-white px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition-all active:scale-95"
+                    style={{ backgroundColor: 'var(--theme-primary)' }}
+                >
+                    <Plus className="w-4 h-4" /> Add Event
+                </button>
+            </div>
+            {events.length === 0 ? (
+                <div className="text-center py-10 bg-white/50 dark:bg-zinc-900/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-zinc-800">
+                    <CalendarCheck className="w-12 h-12 mx-auto text-gray-300 dark:text-zinc-600 mb-3" />
+                    <p className="text-gray-500">No upcoming events found.</p>
+                </div>
+            ) : (
+                <div className="space-y-3">
+                    {events.map((evt) => (
+                        <div key={evt.id} className="bg-white dark:bg-zinc-900 p-4 rounded-2xl shadow-sm flex justify-between items-center border border-gray-100 dark:border-zinc-800">
+                            <div>
+                                <h4 className="font-bold text-lg">{evt.title}</h4>
+                                <p className="text-sm text-gray-500">{new Date(evt.date).toDateString()} at {evt.time}</p>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <button onClick={() => handleToggle(evt.id, evt.reminderEnabled)} className={cn("p-2 rounded-full transition-colors", evt.reminderEnabled ? "bg-[color:var(--theme-primary)]/10 text-[color:var(--theme-primary)]" : "bg-gray-100 dark:bg-zinc-800 text-gray-400")}>
+                                    <Bell className="w-5 h-5" />
+                                </button>
+                                <button onClick={() => deleteEvent(evt.id)} className="text-red-400 hover:text-red-500 p-2">
+                                    <Trash2 className="w-5 h-5" />
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+            {isAddModalOpen && <AddEventModal onClose={() => setIsAddModalOpen(false)} />}
+        </section>
+    );
+}
+
+function AddEventModal({ onClose }: { onClose: () => void }) {
+    const addEvent = useAppStore(state => state.addEvent);
+    const [title, setTitle] = useState('');
+    const [date, setDate] = useState('');
+    const [time, setTime] = useState('');
+    const [reminderEnabled, setReminderEnabled] = useState(false);
+
+    const handleSave = () => {
+        if (title.trim() && date && time) {
+            addEvent({ title: title.trim(), date, time, reminderEnabled });
+            onClose();
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+            <div className="bg-white dark:bg-zinc-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden p-6 animate-in zoom-in duration-200">
+                <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-xl font-bold">New Event</h3>
+                    <button onClick={onClose} className="p-1 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-full transition-colors">
+                        <X className="w-5 h-5 text-gray-500" />
+                    </button>
+                </div>
+                <div className="space-y-4">
+                    <div className="space-y-1">
+                        <label className="block text-xs font-semibold text-gray-500 uppercase">Title</label>
+                        <input type="text" autoFocus className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 text-gray-900 dark:text-white" value={title} onChange={e => setTitle(e.target.value)} />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                            <label className="block text-xs font-semibold text-gray-500 uppercase">Date</label>
+                            <input type="date" className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 text-gray-900 dark:text-white" value={date} onChange={e => setDate(e.target.value)} />
+                        </div>
+                        <div className="space-y-1">
+                            <label className="block text-xs font-semibold text-gray-500 uppercase">Time</label>
+                            <input type="time" className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-2.5 text-sm bg-gray-50 dark:bg-zinc-800 text-gray-900 dark:text-white" value={time} onChange={e => setTime(e.target.value)} />
+                        </div>
+                    </div>
+                    <div className="flex items-center justify-between pt-2">
+                        <span className="text-sm font-semibold">Enable Reminder</span>
+                        <input type="checkbox" checked={reminderEnabled} onChange={e => setReminderEnabled(e.target.checked)} className="w-5 h-5 accent-[color:var(--theme-primary)]" />
+                    </div>
+                </div>
+                <div className="mt-8">
+                    <button onClick={handleSave} className="w-full py-3.5 text-white rounded-xl font-bold shadow-lg transition-all active:scale-[0.98]" style={{ backgroundColor: 'var(--theme-primary)' }}>Save Event</button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function FocusView() {
+    const data = useAppStore(state => state.data);
+    const [selectedTopic, setSelectedTopic] = useState('');
+    const [totalTime, setTotalTime] = useState(25 * 60);
+    const [timeLeft, setTimeLeft] = useState(25 * 60);
+    const [isRunning, setIsRunning] = useState(false);
+    const [isEditingTime, setIsEditingTime] = useState(false);
+    const [inputHours, setInputHours] = useState('0');
+    const [inputMinutes, setInputMinutes] = useState('25');
+
+    const allTopics = useMemo(() => {
+        if (!data) return [];
+        const res: { label: string, value: string }[] = [];
+        data.exams.forEach(e => {
+            e.syllabus.forEach(s => {
+                s.topics.forEach(t => {
+                    res.push({ label: `${e.targetExam.name} - ${t.title}`, value: t.id });
+                });
+            });
+        });
+        return res;
+    }, [data]);
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout;
+        if (isRunning && timeLeft > 0) {
+            interval = setInterval(() => {
+                setTimeLeft(prev => prev - 1);
+            }, 1000);
+        } else if (timeLeft === 0 && isRunning) {
+            setIsRunning(false);
+            if (typeof window !== 'undefined') {
+                new Audio('/alarm.mp3').play().catch(() => {});
+                alert("Pomodoro Complete! Take a break.");
+            }
+        }
+        return () => clearInterval(interval);
+    }, [isRunning, timeLeft]);
+
+    const handleStart = () => {
+        if (!isRunning && timeLeft === 0 && totalTime > 0) {
+            setTimeLeft(totalTime);
+        }
+        setIsRunning(true);
+    };
+    
+    const handlePause = () => {
+        setIsRunning(false);
+    };
+
+    const handleReset = () => { setIsRunning(false); setTimeLeft(totalTime); };
+
+    const applyCustomTime = () => {
+        const h = parseInt(inputHours) || 0;
+        const m = parseInt(inputMinutes) || 0;
+        const totalSecs = (h * 3600) + (m * 60);
+        if (totalSecs > 0) {
+            setTotalTime(totalSecs);
+            setTimeLeft(totalSecs);
+            setIsRunning(false);
+            setIsEditingTime(false);
+        }
+    };
+
+    const applyPreset = (minutes: number) => {
+        const totalSecs = minutes * 60;
+        setTotalTime(totalSecs);
+        setTimeLeft(totalSecs);
+        setIsRunning(false);
+        setInputHours(Math.floor(minutes / 60).toString());
+        setInputMinutes((minutes % 60).toString());
+        setIsEditingTime(false);
+    };
+
+    const formatTime = (sec: number) => {
+        const h = Math.floor(sec / 3600);
+        const m = Math.floor((sec % 3600) / 60);
+        const s = sec % 60;
+        const mStr = h > 0 ? m.toString().padStart(2, '0') : m.toString();
+        return `${h > 0 ? h + ':' : ''}${mStr}:${s.toString().padStart(2, '0')}`;
+    };
+
+    const progress = totalTime > 0 ? ((totalTime - timeLeft) / totalTime) * 100 : 0;
+    const radius = 120;
+    const circumference = 2 * Math.PI * radius;
+    const strokeDashoffset = circumference - (progress / 100) * circumference;
+
+    return (
+        <section className="animate-in fade-in duration-300 space-y-6 flex flex-col items-center">
+            <h2 className="text-2xl font-extrabold tracking-tight self-start">Focus Timer</h2>
+            
+            <div className="w-full max-w-sm space-y-2 mt-4">
+                <label className="text-sm font-semibold text-gray-500 uppercase tracking-widest pl-1">I am focusing on</label>
+                <select 
+                    value={selectedTopic} 
+                    onChange={e => setSelectedTopic(e.target.value)}
+                    className="w-full border-2 border-gray-200 dark:border-zinc-700 rounded-xl p-3 text-sm bg-white dark:bg-zinc-900 focus:outline-none focus:border-[color:var(--theme-primary)] text-gray-900 dark:text-white"
+                >
+                    <option value="" disabled>Select a topic...</option>
+                    {allTopics.map(t => (
+                        <option key={t.value} value={t.value}>{t.label}</option>
+                    ))}
+                </select>
+            </div>
+
+            <div className="relative flex items-center justify-center my-6">
+                <svg width="280" height="280" className="transform -rotate-90">
+                    <circle cx="140" cy="140" r={radius} stroke="currentColor" strokeWidth="12" fill="transparent" className="text-gray-100 dark:text-zinc-800" />
+                    <circle cx="140" cy="140" r={radius} stroke="currentColor" strokeWidth="12" fill="transparent" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset} className="transition-all duration-1000 ease-linear" style={{ color: 'var(--theme-primary)' }} strokeLinecap="round" />
+                </svg>
+                <div className="absolute flex flex-col items-center justify-center w-full h-full">
+                    {isEditingTime ? (
+                        <div className="flex flex-col items-center bg-white dark:bg-zinc-900 p-4 rounded-3xl shadow-lg border border-gray-100 dark:border-zinc-800 animate-in zoom-in duration-200">
+                            <div className="flex items-center gap-2 mb-3">
+                                <div className="flex flex-col items-center">
+                                    <input type="number" min="0" max="99" value={inputHours} onChange={e => setInputHours(e.target.value)} className="w-16 h-12 text-center text-2xl font-bold bg-gray-50 dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:border-[color:var(--theme-primary)] text-gray-900 dark:text-white" />
+                                    <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Hrs</span>
+                                </div>
+                                <span className="text-2xl font-bold pb-4">:</span>
+                                <div className="flex flex-col items-center">
+                                    <input type="number" min="0" max="59" value={inputMinutes} onChange={e => setInputMinutes(e.target.value)} className="w-16 h-12 text-center text-2xl font-bold bg-gray-50 dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:border-[color:var(--theme-primary)] text-gray-900 dark:text-white" />
+                                    <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Min</span>
+                                </div>
+                            </div>
+                            <button onClick={applyCustomTime} className="w-full py-2 bg-[color:var(--theme-primary)] text-white text-sm font-bold rounded-lg hover:opacity-90 transition-opacity">
+                                Set Time
+                            </button>
+                        </div>
+                    ) : (
+                        <>
+                            <span className="text-5xl font-black tabular-nums tracking-tight">{formatTime(timeLeft)}</span>
+                            <span onClick={() => setIsEditingTime(true)} className="text-sm font-semibold text-gray-400 tracking-widest uppercase mt-1 flex items-center gap-1 cursor-pointer hover:text-gray-500 dark:hover:text-gray-300 transition-colors p-2 -m-2">
+                                Remaining <Edit2 className="w-3.5 h-3.5" />
+                            </span>
+                        </>
+                    )}
+                </div>
+            </div>
+
+            {!isEditingTime && (
+                <div className="flex flex-wrap items-center justify-center gap-2 mb-2">
+                    <button onClick={() => applyPreset(15)} className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300 text-xs font-bold hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors cursor-pointer">15m</button>
+                    <button onClick={() => applyPreset(25)} className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300 text-xs font-bold hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors cursor-pointer">25m</button>
+                    <button onClick={() => applyPreset(60)} className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300 text-xs font-bold hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors cursor-pointer">1h</button>
+                    <button onClick={() => applyPreset(120)} className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300 text-xs font-bold hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors cursor-pointer">2h</button>
+                </div>
+            )}
+
+            <div className="flex items-center gap-4">
+                <button onClick={handleReset} className="p-4 rounded-2xl bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300 hover:opacity-80 transition-opacity">
+                    <RotateCcw className="w-6 h-6" />
+                </button>
+                {isRunning ? (
+                    <button onClick={handlePause} className="px-10 py-4 rounded-2xl text-white font-bold text-xl shadow-lg hover:shadow-xl hover:opacity-90 transition-all flex items-center gap-2 active:scale-95 bg-orange-500">
+                        <Pause className="w-6 h-6"/> Pause
+                    </button>
+                ) : (
+                    <button onClick={handleStart} className="px-10 py-4 rounded-2xl text-white font-bold text-xl shadow-lg hover:shadow-xl hover:opacity-90 transition-all flex items-center gap-2 active:scale-95" style={{ backgroundColor: 'var(--theme-primary)' }}>
+                        <Play className="w-6 h-6 fill-current"/> Start
+                    </button>
+                )}
+            </div>
+        </section>
+    );
+}
+
+function InsightsView() {
+    return (
+        <section className="animate-in fade-in duration-300 space-y-6">
+            <h2 className="text-2xl font-extrabold tracking-tight">Accuracy Insights</h2>
+            
+            <div className="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-sm border border-gray-100 dark:border-zinc-800 flex flex-col items-center justify-center text-center py-10">
+                <div className="relative mb-6">
+                    <svg width="160" height="160" className="transform -rotate-90">
+                        <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="16" fill="transparent" className="text-gray-100 dark:text-zinc-800" />
+                        <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="16" fill="transparent" strokeDasharray={440} strokeDashoffset={440 - (85 / 100) * 440} className="transition-all duration-1000 ease-out" style={{ color: 'var(--theme-primary)' }} strokeLinecap="round" />
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center flex-col">
+                        <span className="text-3xl font-black">85%</span>
+                    </div>
+                </div>
+                <h3 className="text-xl font-bold mb-1">Master Accuracy</h3>
+                <p className="text-sm text-gray-500 max-w-[200px] leading-relaxed">Based on your recent tests and revision habits.</p>
+            </div>
+            
+            <div className="space-y-4">
+                <h3 className="font-bold text-lg px-1">By Subject</h3>
+                {['History', 'Geography', 'Polity'].map((subj, i) => (
+                    <div key={subj} className="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-zinc-800">
+                        <div className="flex justify-between items-end mb-2">
+                            <span className="font-bold text-sm">{subj}</span>
+                            <span className="text-sm font-black" style={{ color: 'var(--theme-primary)' }}>{90 - i * 10}%</span>
+                        </div>
+                        <div className="h-2.5 w-full bg-gray-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+                            <div className="h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${90 - i * 10}%`, backgroundColor: 'var(--theme-primary)' }} />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
     );
 }

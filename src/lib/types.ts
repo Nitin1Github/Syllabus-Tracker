@@ -4,6 +4,7 @@ export interface SubTopic {
   id: string;
   title: string;
   state: ProgressState;
+  isStarred?: boolean;
   subtopics?: SubTopic[];
 }
 
@@ -33,4 +34,14 @@ export interface ExamData {
 export interface AppData {
   exams: ExamData[];
   activeExamId: string | null;
+  events?: AppEvent[];
+}
+
+export interface AppEvent {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  reminderEnabled: boolean;
+  notificationId?: number;
 }

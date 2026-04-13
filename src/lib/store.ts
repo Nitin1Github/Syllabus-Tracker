@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AppData, ProgressState, Subject, Topic, SubTopic, ExamData } from '@/lib/types';
+import { AppData, ProgressState, Subject, Topic, SubTopic, ExamData, AppEvent } from '@/lib/types';
 
 interface AppState {
     data: AppData | null;
@@ -8,10 +8,18 @@ interface AppState {
     themeColor: string;
     themeImage: string;
     userName: string;
+    userTargetExam: string;
+    userContact: string;
+    events: AppEvent[];
+
+    addEvent: (event: Omit<AppEvent, 'id'>) => void;
+    deleteEvent: (eventId: string) => void;
+    toggleEventReminder: (eventId: string, enabled: boolean, scheduledId?: number) => void;
 
     setThemeColor: (color: string) => void;
     setThemeImage: (image: string) => void;
     setUserName: (name: string) => void;
+    setProfileData: (name: string, targetExam: string, contact: string) => void;
     setData: (data: AppData) => void;
     fetchData: () => Promise<void>;
 
@@ -26,6 +34,7 @@ interface AppState {
 
     // Syllabus modifications
     updateSubtopicState: (subjectId: string, topicId: string, subTopicId: string, newState: ProgressState) => void;
+    toggleSubtopicStar: (subjectId: string, topicId: string, subTopicId: string) => void;
 
     addSubject: (title: string) => void;
     updateSubject: (subjectId: string, title: string) => void;
@@ -47,6 +56,9 @@ export const useAppStore = create<AppState>((set, get) => ({
     themeColor: 'indigo',
     themeImage: '',
     userName: 'Aspirant',
+    userTargetExam: '',
+    userContact: '',
+    events: [],
 
     setThemeColor: (color) => {
         set({ themeColor: color });
@@ -63,6 +75,15 @@ export const useAppStore = create<AppState>((set, get) => ({
         if (typeof window !== 'undefined') localStorage.setItem('userName', name);
     },
 
+    setProfileData: (name: string, targetExam: string, contact: string) => {
+        set({ userName: name || 'Aspirant', userTargetExam: targetExam, userContact: contact });
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('userName', name || 'Aspirant');
+            localStorage.setItem('userTargetExam', targetExam);
+            localStorage.setItem('userContact', contact);
+        }
+    },
+
     setData: (newData: AppData) => {
         set({ data: newData, activeExamId: newData.activeExamId || null, loading: false });
     },
@@ -73,10 +94,16 @@ export const useAppStore = create<AppState>((set, get) => ({
             const savedColor = localStorage.getItem('themeColor');
             const savedImage = localStorage.getItem('themeImage');
             const savedName = localStorage.getItem('userName');
+            const savedTarget = localStorage.getItem('userTargetExam');
+            const savedContact = localStorage.getItem('userContact');
+            const savedEvents = localStorage.getItem('events');
             set({
                 themeColor: savedColor || 'indigo',
                 themeImage: savedImage || '',
-                userName: savedName || 'Aspirant'
+                userName: savedName || 'Aspirant',
+                userTargetExam: savedTarget || '',
+                userContact: savedContact || '',
+                events: savedEvents ? JSON.parse(savedEvents) : []
             });
             // Note: data loading is shifted to page.tsx using useEffect
         } else {
@@ -433,5 +460,54 @@ export const useAppStore = create<AppState>((set, get) => ({
 
         const newData = { ...data, exams: updatedExams };
         set({ data: newData });
+    },
+
+    toggleSubtopicStar: async (subjectId, topicId, subTopicId) => {
+        const { data, activeExamId } = get();
+        if (!data || !activeExamId) return;
+
+        const updatedExams = data.exams.map(exam => {
+            if (exam.id !== activeExamId) return exam;
+            return {
+                ...exam,
+                syllabus: exam.syllabus.map(subject => {
+                    if (subject.id !== subjectId) return subject;
+                    return {
+                        ...subject,
+                        topics: subject.topics.map(topic => {
+                            if (topic.id !== topicId) return topic;
+                            const mapRecursive = (subs: SubTopic[]): SubTopic[] => subs.map(sub => {
+                                if (sub.id === subTopicId) return { ...sub, isStarred: !sub.isStarred };
+                                if (sub.subtopics) return { ...sub, subtopics: mapRecursive(sub.subtopics) };
+                                return sub;
+                            });
+                            return { ...topic, subtopics: mapRecursive(topic.subtopics) };
+                        })
+                    };
+                })
+            };
+        });
+
+        const newData = { ...data, exams: updatedExams };
+        set({ data: newData });
+    },
+
+    addEvent: (eventData) => {
+        const newEvent = { ...eventData, id: `evt-${Date.now()}` };
+        const newEvents = [...get().events, newEvent];
+        set({ events: newEvents });
+        if (typeof window !== 'undefined') localStorage.setItem('events', JSON.stringify(newEvents));
+    },
+
+    deleteEvent: (eventId) => {
+        const newEvents = get().events.filter(e => e.id !== eventId);
+        set({ events: newEvents });
+        if (typeof window !== 'undefined') localStorage.setItem('events', JSON.stringify(newEvents));
+    },
+
+    toggleEventReminder: (eventId, enabled, scheduledId) => {
+        const newEvents = get().events.map(e => e.id === eventId ? { ...e, reminderEnabled: enabled, notificationId: scheduledId } : e);
+        set({ events: newEvents });
+        if (typeof window !== 'undefined') localStorage.setItem('events', JSON.stringify(newEvents));
     }
 }));
